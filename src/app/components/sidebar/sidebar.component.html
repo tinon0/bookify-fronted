@@ -1,0 +1,78 @@
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Menú</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="nav flex-column">
+            <!-- Opciones SIN LOGIN -->
+            @if (userRole === undefined) {
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/login']" >Inicia Sesión</a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/documentation']" >Documentación</a>
+                </li>
+            }
+
+            <!-- Opciones para CLIENTES -->
+            @if (userRole === 'CLIENT') {
+                <li class="nav-item">
+                    <a class="nav-link" (click)="navigateIfNeeded('/books')">Catálogo de Libros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="navigateIfNeeded('/my-reservations')">Mis Reservas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="navigateIfNeeded('/my-donations')">Mis Donaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="navigateIfNeeded('/my-fines')">Mis Multas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="navigateIfNeeded('/client-donate')">Donar</a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/documentation']" >Documentación</a>
+                </li>
+            }
+
+            <!-- Opciones para ADMINISTRADORES -->
+            @if (userRole === 'ADMIN' || userRole === 'SUPERADMIN') {
+                <li class="nav-item">
+                    <a class="nav-link" (click)="navigateIfNeeded('/principal')">Principal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="navigateIfNeeded('/clients')">Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="navigateIfNeeded('/reservations')">Reservas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="navigateIfNeeded('/admin-view-books')">Libros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="navigateIfNeeded('/payments')">Pagos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="navigateIfNeeded('/donations')">Donaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="navigateIfNeeded('/fines')">Multas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="navigateIfNeeded('/dashboard')">Estadísticas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="navigateIfNeeded('/admin-notifications')">Notificar</a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/documentation']" >Documentación</a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

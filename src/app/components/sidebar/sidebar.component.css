@@ -1,0 +1,20 @@
+/* Sidebar (Offcanvas) */
+.offcanvas-start {
+    background-color: #8dd7ff; /* Azul más intenso */
+}
+
+.offcanvas-header {
+    border-bottom: 1px solid #01579b;
+}
+
+.offcanvas .btn-close {
+    color: white;
+}
+
+.offcanvas .nav-link {
+    color: #035a9c;
+    font-size: x-large;
+}
+.nav-link {
+    cursor: pointer;
+}

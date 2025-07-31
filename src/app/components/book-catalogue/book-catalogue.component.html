@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principal</title>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+
+            <!-- Botón de menú para abrir el Offcanvas Sidebar -->
+            <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                aria-controls="offcanvasSidebar" style="margin-right: 20px;">
+                <i class="fas fa-bars"></i> <!-- Icono de menú -->
+            </button>
+
+            <!-- Logo Bookify -->
+            <app-bookify-logo></app-bookify-logo>
+
+            <!-- Perfil y Logout con separación -->
+            <div class="ms-auto d-flex align-items-center">
+                @if (sessionService.get("userRole") === "CLIENT") {
+                <div class="cart-icon-container">
+                    <i [routerLink]="['/booking-cart']" class="fas fa-shopping-cart icon"
+                        style="font-size: 2rem; margin-right: 50px; cursor: pointer;"></i>
+                    <span [routerLink]="['/booking-cart']" class="cart-count">{{ bookCartService.getCountBooksReserved()
+                        }}</span>
+                </div>
+                }
+
+                <i [routerLink]="['/my-profile']" class="fas fa-user-circle icon"
+                    style="font-size: 2rem; margin-right: 50px; cursor: pointer;"></i>
+                <app-logout></app-logout>
+            </div>
+
+
+        </div>
+    </nav>
+
+    <!-- Offcanvas Sidebar -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Main Content -->
+    <div class="container mt-5 pt-5">
+
+        <!-- Barra de búsqueda -->
+        <div class="search-container">
+            <input type="text" class="form-control" placeholder="Buscar un libro..." (input)="onSearch($event)">
+
+            @if (searchResults.length > 0 || searchNoResults) {
+            <div class="search-suggestions">
+                @if (searchResults.length > 0) {
+                @for (book of searchResults; track book.id_book) {
+                <div class="suggestion-item" [routerLink]="['/book-details/' + book.id_book]">
+                    <img [src]="book.image_file_path ?? 'no-image.png'" alt="{{ book.title }}" class="book-cover-small">
+                    <div class="suggestion-info">
+                        <p class="suggestion-title">{{ book.title }}</p>
+                        <p class="suggestion-isbn">ISBN: {{ book.isbn }}</p>
+                        @if (book.reservation_price > 0) {
+                        <p class="suggestion-price">${{ book.reservation_price }}</p>
+                        }
+                    </div>
+                </div>
+                }
+                <div class="no-results">
+                    <button class="btn btn-secondary mt-3" [routerLink]="['/books']">Ver todos los libros</button>
+                </div>
+                } @else {
+                <div class="no-results">
+                    <p>No se encontraron libros</p>
+                    <button class="btn btn-secondary" [routerLink]="['/books']">Ver todos los libros</button>
+                </div>
+                }
+            </div>
+            }
+        </div>
+
+
+
+        <!-- Novedades Carousel -->
+        <div class="slider-title">Novedades</div>
+        <div class="slider-container" id="sliderContainer" #sliderContainer>
+            <div class="slider-wrapper" id="slider-wrapper">
+                @for (book of normalBooks; track book.id_book) {
+                <div class="book-card">
+                    @if (book.image_file_path === null) {
+                    <img src="no-image.png" alt={{book.title}} class="book-cover">
+                    }
+                    @if (book.image_file_path !== null) {
+                    <img [src]="book.image_file_path" alt={{book.title}} class="book-cover">
+                    }
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <button class="btn btn-secondary btn-sm mb-3 mt-2"
+                        [routerLink]="['/book-details/' + book.id_book]">Ver más</button>
+                    @if (sessionService.get("userRole") === "CLIENT" || sessionService.get("userRole") === null) {
+                    <button class="btn btn-outline-info btn-sm" (click)="addBookToCart(book.id_book)">
+                        Agregar a Reserva
+                    </button>
+                    }
+                </div>
+                }
+            </div>
+            <div class="slider-controls">
+                <button class="slider-control-prev" (click)="scrollBooks('next')">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="slider-control-next" (click)="scrollBooks('prev')">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Premium Books Carousel -->
+        <div class="slider-title">Libros Premium</div>
+        <div class="slider-container" id="sliderPremiumContainer" #sliderPremiumContainer>
+            <div class="slider-wrapper" id="slider-premium-wrapper">
+                @for (book of premiumBooks; track book.id_book) {
+                <div class="book-card">
+                    @if (book.image_file_path === null) {
+                    <img src="no-image.png" alt={{book.title}} class="book-cover">
+                    }
+                    @if (book.image_file_path !== null) {
+                    <img [src]="book.image_file_path" alt={{book.title}} class="book-cover">
+                    }
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <button class="btn btn-secondary btn-sm mb-3 mt-2"
+                        [routerLink]="['/book-details/' + book.id_book]">Ver más</button>
+                    @if (sessionService.get("userRole") === "CLIENT" || sessionService.get("userRole") === null) {
+                    <button class="btn btn-outline-info btn-sm" (click)="addBookToCart(book.id_book)">
+                        Agregar a Reserva
+                    </button>
+                    }
+                </div>
+                }
+            </div>
+            <div class="slider-controls">
+                <button class="slider-control-prev" (click)="scrollBooksPremium('next')">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="slider-control-next" (click)="scrollBooksPremium('prev')">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="text-center py-3 mt-4 text-white">
+        <p>&copy; {{currentYear}} Bookify - UTN</p>
+        <p>Contacto: <a href="mailto:404931@tecnicatura.frc.utn.edu.ar" class="text-white">
+                404931&#64;tecnicatura.frc.utn.edu.ar</a> | Tel: +54
+            351 1234567</p>
+        <p>Dirección: Av. Universidad Tecnológica 123, Córdoba, Argentina</p>
+    </footer>
+
+
+
+</body>
+
+</html>

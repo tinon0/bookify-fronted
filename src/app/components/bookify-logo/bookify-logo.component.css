@@ -1,0 +1,5 @@
+.navbar-brand {
+    color: #ffffff !important; /* Blanco para visibilidad */
+    font-weight: bold;
+    cursor: pointer;
+}

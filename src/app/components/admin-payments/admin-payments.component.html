@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagos</title>
+</head>
+
+<body>
+
+
+    <div class="main-container">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container-fluid">
+                <!-- Botón de menú para abrir el Offcanvas Sidebar -->
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                    aria-controls="offcanvasSidebar" style="margin-right: 20px">
+                    <i class="fas fa-bars"></i>
+                    <!-- Icono de menú -->
+                </button>
+
+                                    <app-bookify-logo></app-bookify-logo>
+
+
+                <!-- Perfil y Logout con separación -->
+                <div class="ms-auto d-flex align-items-center">
+                    <i [routerLink]="['/my-profile']" class="fas fa-user-circle icon"
+                        style="font-size: 2rem; margin-right: 50px; cursor: pointer"></i>
+                    <app-logout></app-logout>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Offcanvas Sidebar -->
+        <app-sidebar></app-sidebar>
+
+        <div class="container">
+            <div class="container mt-5 pt-5">
+                <h1>Pagos</h1>
+
+                <!-- Botón de Filtros -->
+                <div class="dropdown mb-3">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="fas fa-filter"></i> Filtros
+                    </button>
+                    <div class="dropdown-menu p-3">
+                        <!-- Filtro por fecha -->
+                        <div class="mb-2">
+                            <label for="startDate">Desde:</label>
+                            <input type="date" id="startDate" class="form-control" [(ngModel)]="startDate">
+                        </div>
+                        <div class="mb-2">
+                            <label for="endDate">Hasta:</label>
+                            <input type="date" id="endDate" class="form-control" [(ngModel)]="endDate">
+                        </div>
+
+                        <hr>
+
+                        <!-- Filtro por monto -->
+                        <div class="mb-2">
+                            <label for="minAmount">Monto mínimo:</label>
+                            <input type="number" id="minAmount" class="form-control" [(ngModel)]="minAmount">
+                        </div>
+                        <div class="mb-2">
+                            <label for="maxAmount">Monto máximo:</label>
+                            <input type="number" id="maxAmount" class="form-control" [(ngModel)]="maxAmount">
+                        </div>
+
+                        <button class="btn btn-danger btn-sm mt-2" (click)="clearFilters()">Quitar filtros</button>
+                    </div>
+                </div>
+
+                <!-- Tabla de Pagos -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha de Pago</th>
+                            <th>Monto</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (payment of getFilteredDonations(); track payment) {
+                        <tr>
+                            <td>{{ payment.payment_date | date: 'dd/MM/yyyy' }}</td>
+                            <td>{{ payment.amount | currency }}</td>
+                            <td>
+                                <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#reservationDetailsModal"
+                                    (click)="openDetails(payment.id_reservation)">
+                                    Ver detalles
+                                </button>
+                            </td>
+
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <!-- Modal de Detalles de Reserva -->
+                <div class="modal fade" id="reservationDetailsModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Detalles del Pago</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h6>Reserva</h6>
+                                <p><strong>Fecha de Reserva:</strong> {{ selectedReservation?.reservation_date | date:
+                                    'dd/MM/yyyy' }}</p>
+                                <p><strong>Fecha de Devolución:</strong> {{ selectedReservation?.return_date | date:
+                                    'dd/MM/yyyy' }}</p>
+                                <p><strong>Estado: </strong>
+                                    <span class="badge" [ngClass]="{
+                                        'bg-success': selectedReservation?.status === 'PENDIENTE',
+                                        'bg-primary': selectedReservation?.status === 'CONFIRMADA',
+                                        'bg-secondary': selectedReservation?.status === 'FINALIZADA',
+                                        'bg-danger': selectedReservation?.status === 'CANCELADA',
+                                        'bg-warning': selectedReservation?.status === 'VENCIDA'
+                                                                    }">
+                                        {{ selectedReservation?.status }}
+                                    </span>
+                                </p>
+                                <p><strong>Premium:</strong> {{ selectedReservation?.is_premium ? 'Sí' : 'No' }}</p>
+
+                                <hr>
+
+                                <h6>Cliente</h6>
+                                <p><strong>Nombre:</strong> {{ selectedClient?.name }} {{ selectedClient?.surname }}</p>
+                                <p><strong>Teléfono:</strong> {{ selectedClient?.telephone }}</p>
+                                <p><strong>Dirección:</strong> {{ selectedClient?.address }}</p>
+                                <p><strong>Estado: </strong>
+                                    @if (selectedClient?.status === 'ACTIVO') {
+                                    <span class="badge bg-success">ACTIVO</span>
+                                    } @else if (selectedClient?.status === 'INACTIVO') {
+                                    <span class="badge bg-secondary">INACTIVO</span>
+                                    } @else if (selectedClient?.status === 'MOROSO') {
+                                    <span class="badge bg-danger">MOROSO</span>
+                                    }
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="text-center py-3 mt-4 text-white">
+        <p>&copy; {{ currentYear }} Bookify - UTN</p>
+        <p>
+            Contacto:
+            <a href="mailto:404931@tecnicatura.frc.utn.edu.ar" class="text-white">
+                404931&#64;tecnicatura.frc.utn.edu.ar</a>
+            | Tel: +54 351 1234567
+        </p>
+        <p>Dirección: Av. Universidad Tecnológica 123, Córdoba, Argentina</p>
+    </footer>
+</body>
+
+</html>

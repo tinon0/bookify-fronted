@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tu Próxima Reserva</title>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container-fluid">
+                <!-- Botón de menú para abrir el Offcanvas Sidebar -->
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                    aria-controls="offcanvasSidebar" style="margin-right: 20px">
+                    <i class="fas fa-bars"></i>
+                    <!-- Icono de menú -->
+                </button>
+
+                                    <app-bookify-logo></app-bookify-logo>
+
+
+                <!-- Perfil y Logout con separación -->
+                <div class="ms-auto d-flex align-items-center">
+                    <i [routerLink]="['/my-profile']" class="fas fa-user-circle icon"
+                        style="font-size: 2rem; margin-right: 50px; cursor: pointer"></i>
+                    <app-logout></app-logout>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Offcanvas Sidebar -->
+        <app-sidebar></app-sidebar>
+
+        <div class="content">
+            <div class="container mt-5 pt-5">
+                <!-- Main Content -->
+                <div class="container mt-5 pt-5">
+                    <div class="booking-card">
+                        <h2>Tu Reserva de Libros</h2>
+
+                        @if (hasPremiumBooks()) {
+                        <div class="alert alert-warning">
+                            <strong>Atención:</strong> Algunos libros en tu reserva son <b>Premium</b>.
+                            Al hacer clic en "Reservar Ahora", serás redirigido para pagar la reserva.
+                        </div>
+                        }
+
+
+                        @if (bookToReserve.length > 0) {
+                        <ul>
+                            @for (book of bookToReserve; track book.id_book) {
+                            <li class="book-item">
+                                <div class="book-details">
+                                    <p><strong>Título:</strong> {{ book.title }}</p>
+                                    <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+                                    <p>
+                                        <strong>Precio de Reserva:</strong> ${{
+                                        book.reservation_price
+                                        }}
+                                    </p>
+                                </div>
+                                <div class="book-actions">
+                                    <button class="btn btn-danger" (click)="removeBook(book.id_book)">
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </li>
+                            }
+                        </ul>
+                        } @else {
+                        <p class="empty-text">
+                            No has agregado ningún libro a la reserva.
+                        </p>
+                        } @if (bookToReserve.length > 0) {
+                            @if (!isLoading) {
+                                <button class="btn btn-success reserve-btn" (click)="reserveBooks()">
+                                    Reservar Ahora
+                                </button>
+                            }
+                            @if (isLoading) {
+                                <div class="spinner-wrapper">
+                                    <div class="spinner"></div>
+                                </div>
+                            }
+                        
+                        } @if (bookToReserve.length <= 0) { <button class="btn btn-success reserve-btn"
+                            [routerLink]="['/principal']">
+                            Busca Libros!
+                            </button>
+                            }
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- Footer -->
+        <footer class="text-center py-3 mt-4 text-white">
+            <p>&copy; {{ currentYear }} Bookify - UTN</p>
+            <p>
+                Contacto:
+                <a href="mailto:404931@tecnicatura.frc.utn.edu.ar" class="text-white">
+                    404931&#64;tecnicatura.frc.utn.edu.ar</a>
+                | Tel: +54 351 1234567
+            </p>
+            <p>Dirección: Av. Universidad Tecnológica 123, Córdoba, Argentina</p>
+        </footer>
+    </div>
+</body>
+
+</html>

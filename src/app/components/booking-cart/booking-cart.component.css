@@ -1,0 +1,167 @@
+/* Fondo global */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #c6f8ff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Contenedor principal que ocupa toda la pantalla */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Contenido principal que crece para empujar el footer */
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #54b5ff;
+}
+
+.navbar-brand {
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #ffcc00 !important;
+}
+
+.icon {
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+/* Sidebar (Offcanvas) */
+.offcanvas-start {
+    background-color: #8dd7ff;
+}
+
+.offcanvas-header {
+    border-bottom: 1px solid #01579b;
+}
+
+.offcanvas .btn-close {
+    color: white;
+}
+
+.offcanvas .nav-link {
+    color: #035a9c;
+    font-size: x-large;
+}
+
+/* Footer */
+footer {
+    background-color: #54b5ff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-weight: bold;
+    width: 100%;
+    margin-top: auto; 
+    position: sticky;
+}
+
+/* Mensajes de error */
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 15px;
+    display: block;
+}
+
+/* Tarjeta de reserva */
+.booking-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+}
+
+.booking-card h2 {
+    color: #01579b;
+    margin-bottom: 20px;
+}
+
+/* Ítems de libro */
+.book-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+}
+
+.book-details {
+    text-align: left;
+}
+
+.book-actions button {
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Texto si no hay libros */
+.empty-text {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+/* Botón de reservar */
+.reserve-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.reserve-btn:hover {
+    background-color: #218838;
+}
+
+/* Spinner */
+.spinner-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 48px; /* Ajusta la altura si es necesario */
+    background-color: #f8f9fa; /* Color de fondo que desees */
+}
+
+.spinner {
+    border: 4px solid transparent;
+    border-top: 4px solid #28a745;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

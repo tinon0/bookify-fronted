@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donar</title>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container-fluid">
+                <!-- Botón de menú para abrir el Offcanvas Sidebar -->
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                    aria-controls="offcanvasSidebar" style="margin-right: 20px">
+                    <i class="fas fa-bars"></i>
+                    <!-- Icono de menú -->
+                </button>
+
+                                    <app-bookify-logo></app-bookify-logo>
+
+
+                <!-- Perfil y Logout con separación -->
+                <div class="ms-auto d-flex align-items-center">
+                    <div class="cart-icon-container">
+                        <i [routerLink]="['/booking-cart']" class="fas fa-shopping-cart icon"
+                            style="font-size: 2rem; margin-right: 50px; cursor: pointer;"></i>
+                        <span [routerLink]="['/booking-cart']" class="cart-count">{{
+                            bookCartService.getCountBooksReserved() }}</span>
+                    </div>
+                    <i [routerLink]="['/my-profile']" class="fas fa-user-circle icon"
+                        style="font-size: 2rem; margin-right: 50px; cursor: pointer"></i>
+                    <app-logout></app-logout>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Offcanvas Sidebar -->
+        <app-sidebar></app-sidebar>
+
+
+        <div class="content">
+            <div class="container mt-5 pt-5">
+                <h1>Colaborar con una Donación</h1>
+                <div class="card text-center mt-4 p-3 shadow-custom">
+                    <p>Ingresa la cantidad que deseas donar</p>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" [(ngModel)]="donationAmount" class="form-control"
+                        placeholder="Donación" min="1000" max="1000000" id="donationInput" title="Donación"
+                        (input)="validateDonation()" [class.is-invalid]="isInvalidDonation">
+                    </div>
+                    
+                    <button [disabled]="isInvalidDonation" class="btn btn-primary mt-3 w-50" id="donateButton" (click)="proccesDonation()">Donar</button>
+                    <p class="mt-2 text-muted">Serás redirigido a la plataforma de pagos para administrar la donación.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 mt-4 text-white">
+        <p>&copy; {{ currentYear }} Bookify - UTN</p>
+        <p>
+            Contacto:
+            <a href="mailto:404931@tecnicatura.frc.utn.edu.ar" class="text-white">
+                404931&#64;tecnicatura.frc.utn.edu.ar</a>
+            | Tel: +54 351 1234567
+        </p>
+        <p>Dirección: Av. Universidad Tecnológica 123, Córdoba, Argentina</p>
+    </footer>
+</body>
+
+</html>

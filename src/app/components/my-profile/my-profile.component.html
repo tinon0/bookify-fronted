@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil</title>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container-fluid">
+
+                <!-- Botón de menú para abrir el Offcanvas Sidebar -->
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                    aria-controls="offcanvasSidebar" style="margin-right: 20px;">
+                    <i class="fas fa-bars"></i> <!-- Icono de menú -->
+                </button>
+
+                                    <app-bookify-logo></app-bookify-logo>
+
+
+                <!-- Perfil y Logout con separación -->
+                <div class="ms-auto d-flex align-items-center">
+                    @if (sessionService.get("userRole") === "CLIENT") {
+                        <i [routerLink]="['/booking-cart']" class="fas fa-shopping-cart icon"
+                        style="font-size: 2rem; margin-right: 50px; cursor: pointer;"></i>
+                        <span [routerLink]="['/booking-cart']" class="cart-count">{{ bookCartService.getCountBooksReserved() }}</span>
+                    }
+                    <i [routerLink]="['/my-profile']" class="fas fa-user-circle icon"
+                        style="font-size: 2rem; margin-right: 50px; cursor: pointer;"></i>
+                    <app-logout></app-logout>
+                </div>
+
+
+            </div>
+        </nav>
+
+
+        <!-- Offcanvas Sidebar -->
+        <app-sidebar></app-sidebar>
+
+
+        <div class="container mt-5 pt-5">
+            <h1 class="text-center mb-4">Mi Perfil</h1>
+
+            @if (!isEditing) {
+
+            <div class="profile-card">
+                <div class="profile-header text-center">
+                    <img src="default-avatar.png" alt="Avatar" class="profile-avatar">
+                    <h2>{{ client?.name }} {{ client?.surname }}</h2>
+                </div>
+
+                <div class="profile-info">
+                    <div class="info-item">
+                        <strong>Teléfono: </strong>
+                        <span>{{ client?.telephone }}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Dirección: </strong>
+                        <span>{{ client?.address }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-5">
+                <button class="btn btn-primary" (click)="editProfile()">Modificar</button>
+            </div>
+
+            }
+            @if (isEditing) {
+            <div class="profile-header text-center">
+                <img src="default-avatar.png" alt="Avatar" class="profile-avatar">
+                <h2>Editar Perfil</h2>
+
+                <form [formGroup]="updateClient" (ngSubmit)="saveChanges()" id="updateClient">
+                    <div class="profile-info">
+                        <div class="info-item">
+                            <label for="name"><strong>Nombre: </strong></label>
+                            <input formControlName="new_name" type="text" id="new_name" name="new_name"
+                                class="form-control">
+
+                            @if (updateClient.get('new_name')?.invalid && (updateClient.get('new_name')?.touched ||
+                            updateClient.get('new_name')?.dirty)) {
+                            @if (updateClient.get('new_name')?.hasError('required')) {
+                            <small class="error-message"> Campo Obligatorio </small>
+                            }
+                            @if (updateClient.get('new_name')?.hasError('minlength')) {
+                            <small class="error-message"> Nombre debe tener mínimo 2 caracteres </small>
+                            }
+                            }
+
+                        </div>
+                        <div class="info-item">
+                            <label for="surname"><strong>Apellido: </strong></label>
+                            <input formControlName="new_surname" type="text" id="new_surname" name="new_surname"
+                                class="form-control">
+
+                            @if (updateClient.get('new_surname')?.invalid && (updateClient.get('new_surname')?.touched
+                            || updateClient.get('new_surname')?.dirty)) {
+                            @if (updateClient.get('new_surname')?.hasError('required')) {
+                            <small class="error-message"> Campo Obligatorio </small>
+                            }
+                            @if (updateClient.get('new_surname')?.hasError('minlength')) {
+                            <small class="error-message"> Apellido debe tener mínimo 2 caracteres </small>
+                            }
+                            }
+
+                        </div>
+                        <div class="info-item">
+                            <label for="telephone"><strong>Teléfono: </strong></label>
+                            <input formControlName="new_telephone" type="text" id="new_telephone" name="new_telephone"
+                                class="form-control">
+
+                            @if (updateClient.get('new_telephone')?.invalid &&
+                            (updateClient.get('new_telephone')?.touched || updateClient.get('new_telephone')?.dirty)) {
+                            @if (updateClient.get('new_telephone')?.hasError('required')) {
+                            <small class="error-message"> Campo Obligatorio </small>
+                            }
+                            @if (updateClient.get('new_telephone')?.hasError('minlength')) {
+                            <small class="error-message"> Teléfono invalido </small>
+                            }
+                            }
+
+                        </div>
+                        <div class="info-item">
+                            <label for="address"><strong>Dirección: </strong></label>
+                            <input formControlName="new_address" type="text" id="new_address" name="new_address"
+                                class="form-control">
+
+                            @if (updateClient.get('new_address')?.invalid && (updateClient.get('new_address')?.touched
+                            || updateClient.get('new_address')?.dirty)) {
+                            @if (updateClient.get('new_address')?.hasError('required')) {
+                            <small class="error-message"> Campo Obligatorio </small>
+                            }
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-3">
+                        <!-- Botones de Cancelar y Aceptar -->
+                        <button type="button" class="btn btn-danger" (click)="cancelEdit()">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+            }
+
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Footer -->
+    <footer class="text-center py-3 mt-4 text-white">
+        <p>&copy; {{currentYear}} Bookify - UTN</p>
+        <p>Contacto: <a href="mailto:404931@tecnicatura.frc.utn.edu.ar" class="text-white">
+                404931&#64;tecnicatura.frc.utn.edu.ar</a> | Tel: +54
+            351 1234567</p>
+        <p>Dirección: Av. Universidad Tecnológica 123, Córdoba, Argentina</p>
+    </footer>
+
+
+
+
+</body>
+
+</html>

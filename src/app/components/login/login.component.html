@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Iniciar Sesión</h1>
+            <form #form="ngForm" (ngSubmit)="submit()" id="form">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo Electrónico</label>
+                    
+                    <input 
+                    [(ngModel)]="email" 
+                    #emailField = "ngModel"
+                    type="email" 
+                    class="form-control" 
+                    id="email" 
+                    name="email" 
+                    placeholder="Introduce tu correo electrónico" 
+                    required />
+                    @if (emailField.invalid && (emailField.touched || emailField.dirty)) {
+                        @if (emailField.errors?.['required']) {
+                            <small class="text-danger">Correo electrónico obligatorio</small>
+                        }
+                        @if (emailField.errors?.['email']) {
+                            <small class="text-danger">Correo electrónico incorrecto</small>
+                        }
+                    }
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+
+                    <input 
+                    [(ngModel)]="password" 
+                    #passwordField = "ngModel"
+                    type="password" 
+                    class="form-control" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Introduce tu contraseña" 
+                    required 
+                    />
+                    @if (passwordField.invalid && (passwordField.touched || passwordField.dirty)) {
+                        @if (passwordField.errors?.['required']) {
+                            <small class="text-danger">Contraseña obligatorio</small>
+                        }
+                    }
+                </div>
+                <button type="submit" class="button" [disabled]="form.invalid">Iniciar Sesión</button>
+                @if(error) {
+                        <h6 id="errorMessage" class="text-danger mt-3"> {{errorMessage}}</h6>
+                    }
+            </form>
+            <h6 style="text-align: center; color: rgb(0, 41, 131);" class="mt-4">No tienes cuenta?</h6>
+            <button class="btn btn-primary" (click)="createUser()">Registrarse</button>
+        </div>
+    </div>
+</body>
+
+</html>

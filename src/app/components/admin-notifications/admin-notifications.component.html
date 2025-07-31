@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificar</title>
+</head>
+
+<body>
+    <div class="main-container">
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container-fluid">
+                <!-- Botón de menú para abrir el Offcanvas Sidebar -->
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                    aria-controls="offcanvasSidebar" style="margin-right: 20px">
+                    <i class="fas fa-bars"></i>
+                    <!-- Icono de menú -->
+                </button>
+
+                <app-bookify-logo></app-bookify-logo>
+
+
+                <!-- Perfil y Logout con separación -->
+                <div class="ms-auto d-flex align-items-center">
+                    <i [routerLink]="['/my-profile']" class="fas fa-user-circle icon"
+                        style="font-size: 2rem; margin-right: 50px; cursor: pointer"></i>
+                    <app-logout></app-logout>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Offcanvas Sidebar -->
+        <app-sidebar></app-sidebar>
+
+        <div class="content">
+            <!-- Main Content -->
+            <div class="container mt-5 pt-5">
+                <h1>Notificar</h1>
+
+
+                <!-- Barra de búsqueda -->
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+                    <input type="text" class="form-control w-75" placeholder="Buscar por nombre, apellido o correo"
+                        [(ngModel)]="searchQuery">
+
+                    <!-- Botón para Desktop (texto visible) -->
+                    @if (selectedContacts.length === 1) {
+                    <button class="btn btn-primary ms-2 d-none d-md-inline" data-bs-toggle="modal"
+                        data-bs-target="#notificationModal" (click)="openNotificationModal('Notificación Individual')">
+                        Notificar Individual
+                    </button>
+
+                    <!-- Botón para Mobile (solo íconos) -->
+                    <button class="btn btn-primary ms-2 d-inline d-md-none" data-bs-toggle="modal"
+                        data-bs-target="#notificationModal" (click)="openNotificationModal('Notificación Individual')">
+                        <i class="fas fa-envelope"></i> <i style="margin-left: 15px;" class="fas fa-user"></i>
+                    </button>
+                    }
+
+                    @if (selectedContacts.length > 1) {
+                    <button class="btn btn-primary ms-2 d-none d-md-inline" data-bs-toggle="modal"
+                        data-bs-target="#notificationModal" (click)="openNotificationModal('Notificación Grupal')">
+                        Notificar Grupo
+                    </button>
+
+                    <!-- Botón para Mobile (solo íconos) -->
+                    <button class="btn btn-primary ms-2 d-inline d-md-none" data-bs-toggle="modal"
+                        data-bs-target="#notificationModal" (click)="openNotificationModal('Notificación Grupal')">
+                        <i class="fas fa-envelope"></i> <i style="margin-left: 15px;" class="fas fa-users"></i>
+                    </button>
+                    }
+                </div>
+
+
+                <!-- Tabla de contactos -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" (change)="toggleSelectAll($event)"
+                                    [checked]="selectedContacts.length === clientContacts.length"></th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Correo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(contact of updateSearch(); track contact) {
+                        <tr>
+                            <td><input type="checkbox" (change)="toggleSelect(contact)"
+                                    [checked]="selectedContacts.includes(contact)"></td>
+                            <td>{{ contact.name }}</td>
+                            <td>{{ contact.surname }}</td>
+                            <td>{{ contact.mail }}</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Modal de Notificación -->
+            <div class="modal fade" id="notificationModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">{{ notificationType }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="notificationTitle" class="form-label">Título de la Notificación</label>
+                                <input type="text" id="notificationTitle" class="form-control"
+                                    [(ngModel)]="notificationTitle">
+                            </div>
+                            <div class="mb-3">
+                                <label for="notificationMessage" class="form-label">Mensaje</label>
+                                <textarea id="notificationMessage" class="form-control"
+                                    [(ngModel)]="notificationMessage"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-primary" (click)="sendNotification()" [disabled]="loading">
+                                @if (loading) {
+                                <span class="spinner-wrapper">
+                                    <span class="spinner"></span>
+                                </span>
+                                } @else {
+                                Enviar
+                                }
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+        <!-- Footer -->
+        <footer class="text-center py-3 mt-4 text-white">
+            <p>&copy; {{ currentYear }} Bookify - UTN</p>
+            <p>
+                Contacto:
+                <a href="mailto:404931@tecnicatura.frc.utn.edu.ar" class="text-white">
+                    404931&#64;tecnicatura.frc.utn.edu.ar</a>
+                | Tel: +54 351 1234567
+            </p>
+            <p>Dirección: Av. Universidad Tecnológica 123, Córdoba, Argentina</p>
+        </footer>
+    </div>
+</body>
+
+</html>

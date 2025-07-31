@@ -1,0 +1,219 @@
+/* Fondo global */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #c6f8ff; /* Fondo claro */
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333; /* Texto oscuro para contraste */
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+/* Contenedor principal (que incluye navbar, contenido y footer) */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Ajustar */
+    min-height: 100vh; /* Asegurar que ocupa toda la altura */
+}
+.content {
+    flex-grow: 1;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #54b5ff; /* Azul más oscuro */
+}
+
+.navbar-brand {
+    color: #ffffff !important; /* Blanco para visibilidad */
+    font-weight: bold;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #ffffff !important; /* Blanco para los enlaces */
+    font-weight: bold;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #ffcc00 !important; /* Amarillo brillante */
+}
+
+.icon {
+    font-size: 1.5rem;
+    color: #ffffff; /* Íconos en blanco */
+}
+
+/* Sidebar (Offcanvas) */
+.offcanvas-start {
+    background-color: #8dd7ff; /* Azul más intenso */
+}
+
+.offcanvas-header {
+    border-bottom: 1px solid #01579b;
+}
+
+.offcanvas .btn-close {
+    color: white;
+}
+
+.offcanvas .nav-link {
+    color: #035a9c;
+    font-size: x-large;
+}
+
+/* Footer */
+/* Footer */
+footer {
+    background-color: #54b5ff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-weight: bold;
+    width: 100%;
+    margin-top: auto;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 15px;
+    display: block;
+}
+
+
+.cart-icon-container {
+    position: relative;
+    display: inline-block;
+    margin-right: (0,0,0,970px); /* Espaciado adecuado entre los iconos */
+}
+
+.cart-icon-container i {
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.cart-count {
+    position: absolute;
+    top: 5px; /* Ajusta la posición vertical para que no quede demasiado arriba */
+    background-color: #ff0000;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+
+
+/* Contenedor principal del perfil */
+.profile-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+    background: #f5faff; /* Fondo suave para la tarjeta */
+}
+
+/* Encabezado del perfil */
+.profile-header {
+    margin-bottom: 20px;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.profile-header h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #01579b;
+    margin-bottom: 5px;
+}
+
+.profile-header p {
+    font-size: 1rem;
+    color: #8dd7ff;
+}
+
+/* Información del cliente */
+.profile-info {
+    font-size: 1.1rem;
+}
+
+.info-item {
+    margin-bottom: 10px;
+    color: black;
+}
+
+.info-item strong {
+    color: #035a9c;
+}
+
+.info-item span {
+    font-weight: normal;
+}
+
+/* Títulos */
+h1 {
+    color: #01579b;
+    font-weight: bold;
+    font-size: 2.2rem;
+}
+
+/* Estilos para los botones de cancelar y aceptar */
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+
+/*Formulario*/
+.profile-info .info-item input {
+    max-width: 400px; 
+    margin: 0 auto; 
+    display: block; 
+}
+
+.profile-header form {
+    max-width: 500px;
+    margin: 0 auto; 
+}
+
+.d-flex.justify-content-between {
+    justify-content: center !important;
+    gap: 10px; 
+}

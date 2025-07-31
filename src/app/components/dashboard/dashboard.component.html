@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container-fluid">
+
+                <!-- Botón de menú para abrir el Offcanvas Sidebar -->
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                    aria-controls="offcanvasSidebar" style="margin-right: 20px;">
+                    <i class="fas fa-bars"></i> <!-- Icono de menú -->
+                </button>
+
+                <app-bookify-logo></app-bookify-logo>
+
+
+                <!-- Perfil y Logout con separación -->
+                <div class="ms-auto d-flex align-items-center">
+                    <i [routerLink]="['/my-profile']" class="fas fa-user-circle icon"
+                        style="font-size: 2rem; margin-right: 50px; cursor: pointer;"></i>
+                    <app-logout></app-logout>
+                </div>
+
+            </div>
+        </nav>
+
+
+        <!-- Offcanvas Sidebar -->
+        <app-sidebar></app-sidebar>
+
+
+        <!-- DASHBOARD -->
+        <div>
+
+            <div class="stats-container">
+                <h2 class="stats-title">📊 Tus Estadísticas Generales</h2>
+
+                <div class="category">
+                    <h3>💰 Donaciones</h3>
+                    <div class="stats-grid">
+                        <div class="card">
+                            <i class="fas fa-hand-holding-usd"></i>
+                            <h4>Total Donado</h4>
+                            @if (isLoading.totalDonation) {
+                            <div class="spinner"></div>
+                            } @else {
+                            <p id="totalDonation">${{ totalDonation }}</p>
+                            }
+                        </div>
+                        <div class="card">
+                            <i class="fas fa-chart-line"></i>
+                            <h4>Promedio de Donación</h4>
+                            @if (isLoading.avgDonation) {
+                            <div class="spinner"></div>
+                            } @else {
+                            <p id="avgDonation">${{avgDonation}}</p>
+                            }
+                        </div>
+                        <!-- <div class="card">
+                                <i class="fas fa-user"></i>
+                                <h4>Donaciones por Cliente</h4>
+                                <p id="donationsByClient">{{donationsByClient}}</p>
+                            </div> -->
+                        <!-- <div class="card">
+                                <i class="fas fa-calendar-alt"></i>
+                                <h4>Donaciones en Rango de Fechas</h4>
+                                <p id="donationsByDate">{{donationsByDate}}</p>
+                                <button class="btn btn-primary mt-2" data-bs-toggle="modal"
+                                    data-bs-target="#dateFilterModal"
+                                    (click)="setFilterOption('donationsByDate')">Buscar</button>
+                            </div> -->
+                        <div class="card">
+                            <i class="fas fa-trophy"></i>
+                            <h4>Cliente con Más Donaciones (Cantidad)</h4>
+                            @if (isLoading.clientMostDonationsByCount) {
+                            <div class="spinner"></div>
+                            } @else {
+                            <p id="clientMostDonationsByCount">{{ clientMostDonationsByCount?.name }}</p>
+                            }
+                        </div>
+                        <div class="card">
+                            <i class="fas fa-medal"></i>
+                            <h4>Cliente con Más Donaciones (Monto)</h4>
+                            @if (isLoading.clientMostDonationsByAmount) {
+                            <div class="spinner"></div>
+                            } @else {
+                            <p id="clientMostDonationsByAmount">{{ clientMostDonationsByAmount?.name }}</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reservas -->
+                <div class="category">
+                    <h3>📚 Reservas</h3>
+                    <div class="stats-grid">
+                        <div class="card">
+                            <i class="fas fa-book"></i>
+                            <h4>Total de Reservas</h4>
+                            <p id="totalReservations">{{totalReservations}}</p>
+                        </div>
+                        <div class="card">
+                            <i class="fas fa-calendar-check"></i>
+                            <h4>Reservas por Estado</h4>
+                            <canvas id="reservationsByStatusChart"></canvas>
+                            <!-- @for (entry of reservationEntries("reservationsByStatus"); track entry.key) {
+                                <p id="reservationsByStatus">
+                                    <strong>{{ entry.key }}:</strong> {{ entry.value }}
+                                </p>
+                                } -->
+
+                        </div>
+                        <div class="card">
+                            <i class="fas fa-star"></i>
+                            <h4>Reservas por Tipo</h4>
+                            <canvas id="reservationsByTypeChart"></canvas>
+                            <!-- @for (entry of reservationEntries("reservationsByPremiumStatus"); track entry.key) {
+                                <p id="reservationsByPremiumStatus">
+                                    <strong>{{ entry.key }}:</strong> {{ entry.value }}
+                                </p>
+                                } -->
+                        </div>
+                        <!-- <div class="card">
+                                <i class="fas fa-user-clock"></i>
+                                <h4>Reservas por Cliente</h4>
+                                <p id="reservationsByClient">{{reservationsByClient}}</p>
+                                <button class="btn btn-primary mt-2" data-bs-toggle="modal"
+                                    data-bs-target="#dateFilterModal"
+                                    (click)="setFilterOption('reservationsByClient')"
+                                    >Buscar</button>
+                            </div> -->
+                        <div class="card">
+                            <i class="fas fa-chart-bar"></i>
+                            <h4>Promedio de Reservas por Cliente</h4>
+                            @if (isLoading.avgReservationsPerClient) {
+                            <div class="spinner"></div>
+                            } @else {
+                            <p id="avgReservationsPerClient">{{avgReservationsPerClient}}</p>
+                            }
+                        </div>
+                        <!-- <div class="card">
+                                <i class="fas fa-calendar-alt"></i>
+                                <h4>Reservas en Rango de Fechas</h4>
+                                <p id="reservationsByDate">{{reservationsByDate}}</p>
+                                <button class="btn btn-primary mt-2" data-bs-toggle="modal"
+                                    data-bs-target="#dateFilterModal"
+                                    (click)="setFilterOption('reservationsByDate')">Buscar</button>
+                            </div> -->
+                        <div class="card">
+                            <i class="fas fa-times-circle"></i>
+                            <h4>Reservas Canceladas</h4>
+                            @if (isLoading.canceledReservations) {
+                            <div class="spinner"></div>
+                            } @else {
+                            <p id="canceledReservations">{{canceledReservations}}</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagos -->
+                <div class="category">
+                    <h3>💳 Pagos</h3>
+                    <div class="stats-grid">
+                        <div class="card">
+                            <i class="fas fa-dollar-sign"></i>
+                            <h4>Monto Total Pagado</h4>
+                            @if (isLoading.totalAmountPaid) {
+                            <div class="spinner"></div>
+                            } @else {
+                            <p id="totalAmountPaid">${{totalAmountPaid}}</p>
+                            }
+                        </div>
+                        <div class="card">
+                            <i class="fas fa-credit-card"></i>
+                            <h4>Total de Pagos</h4>
+                            @if (isLoading.totalPayments) {
+                            <div class="spinner"></div>
+                            } @else {
+                            <p id="totalPayments">{{totalPayments}}</p>
+                            }
+                        </div>
+                        <div class="card">
+                            <i class="fas fa-calendar-alt"></i>
+                            <h4>Pagos Recientes</h4>
+                            @if (isLoading.recentPayments) {
+                            <div class="spinner"></div>
+                            } @else {
+                            <p id="recentPayments">{{recentPayments.length ? recentPayments.length : 0}}</p>
+                            }
+                        </div>
+                        <!-- <div class="card">
+                                <i class="fas fa-calendar-week"></i>
+                                <h4>Pagos en Rango de Fechas</h4>
+                                <p id="paymentsByDate">{{paymentsByDate}}</p>
+                                <button class="btn btn-primary mt-2" data-bs-toggle="modal"
+                                    data-bs-target="#dateFilterModal"
+                                    (click)="setFilterOption('paymentsByDate')">Buscar</button>
+                            </div> -->
+                    </div>
+                </div>
+
+                <!-- Libros -->
+                <div class="category">
+                    <h3>📖 Libros</h3>
+                    <div class="stats-grid">
+                        <div class="card">
+                            <i class="fas fa-book-reader"></i>
+                            <h4>Libros Reservados</h4>
+                            @if (isLoading.reservedBooks) {
+                            <div class="spinner"></div>
+                            } @else {
+                            <p id="reservedBooks">{{reservedBooks}}</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multas -->
+                <div class="category">
+                    <h3>⚖️ Multas</h3>
+                    <div class="stats-grid">
+                        <div class="card">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <h4>Monto Total de Multas</h4>
+                            @if (isLoading.totalFineAmount) {
+                            <div class="spinner"></div>
+                            } @else {
+                            <p id="totalFineAmount">${{totalFineAmount}}</p>
+                            }
+                        </div>
+                        <div class="card">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <h4>Total de Multas</h4>
+                            @if (isLoading.totalFines) {
+                            <div class="spinner"></div>
+                            } @else {
+                            <p id="totalFines">{{totalFines}}</p>
+                            }
+                        </div>
+                        <div class="card">
+                            <i class="fas fa-balance-scale"></i>
+                            <h4>Promedio de Multas</h4>
+                            @if (isLoading.avgFineAmount) {
+                            <div class="spinner"></div>
+                            } @else {
+                            <p id="avgFineAmount">${{avgFineAmount}}</p>
+                            }
+                        </div>
+                        <div class="card">
+                            <i class="fas fa-calendar-alt"></i>
+                            <h4>Multas del Último Mes</h4>
+                            @if (isLoading.finesLastMonth) {
+                            <div class="spinner"></div>
+                            } @else {
+                            <p id="finesLastMonth">{{finesLastMonth}}</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+
+        <!-- Footer -->
+        <footer class="text-center py-3 mt-4 text-white">
+            <p>&copy; {{currentYear}} Bookify - UTN</p>
+            <p>Contacto: <a href="mailto:404931@tecnicatura.frc.utn.edu.ar" class="text-white">
+                    404931&#64;tecnicatura.frc.utn.edu.ar</a> | Tel: +54
+                351 1234567</p>
+            <p>Dirección: Av. Universidad Tecnológica 123, Córdoba, Argentina</p>
+        </footer>
+
+
+    </div>
+
+</body>
+
+</html>

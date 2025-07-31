@@ -1,0 +1,222 @@
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #e0f2f7;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333333;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0 15px;
+    /* Añadido para dar un poco de espacio en móviles */
+}
+
+.card {
+    width: 100%;
+    max-width: 700px;
+    /* Aumento el ancho máximo del formulario */
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+h1 {
+    color: #29b6f6;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.form-label {
+    color: #0290b0;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #b2ebf2;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 15px;
+    display: block;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* Espacio entre los campos */
+}
+
+.mb-3 {
+    width: 48%;
+    /* Ajusta el ancho para que dos campos se alineen horizontalmente */
+}
+
+@media (max-width: 768px) {
+    .card {
+        max-width: 90%;
+        /* En pantallas pequeñas, el formulario ocupa un 90% del ancho */
+    }
+
+    .form-row {
+        flex-direction: column;
+        /* En pantallas pequeñas, los campos vuelven a ser verticales */
+    }
+
+    .mb-3 {
+        width: 100%;
+        /* Los campos ocupan el 100% en pantallas pequeñas */
+    }
+}
+
+.button {
+    background-color: #29b6f6;
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    position: relative;
+}
+
+.button:hover {
+    background-color: #0288d1;
+}
+
+.button:disabled {
+    background-color: #b2ebf2;
+    color: #b0bec5;
+    cursor: not-allowed;
+}
+
+.submit-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+    height: 48px;
+}
+
+.spinner-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #b2ebf2;
+    border-radius: 4px;
+}
+
+.spinner {
+    border: 4px solid transparent;
+    border-top: 4px solid #0288d1;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+        max-height: fit-content;
+    }
+
+    .container {
+        height: auto; /* Cambié el valor para que no se quede fijo en 100vh */
+        padding: 0 15px;
+    }
+
+    .card {
+        max-width: 90%; /* En pantallas pequeñas, el formulario ocupa un 90% del ancho */
+        margin-top: 10px; /* Menos margen superior */
+        margin-bottom: 10px; /* Menos margen inferior */
+    }
+
+    h1 {
+        font-size: 22px; /* Ajustamos el tamaño del título */
+        margin-bottom: 15px; /* Reducimos el margen inferior */
+    }
+
+    .form-label {
+        font-size: 14px; /* Reducimos el tamaño de la fuente en las etiquetas */
+    }
+
+    .form-control {
+        font-size: 14px; /* Reducimos el tamaño de la fuente de los inputs */
+        padding: 10px; /* Reducimos el padding de los inputs */
+    }
+
+    .form-row {
+        flex-direction: column;
+        /* En pantallas pequeñas, los campos se alinean verticalmente */
+        gap: 15px; /* Espacio entre los campos */
+    }
+
+    .mb-3 {
+        width: 100%;
+        /* Los campos ocupan el 100% en pantallas pequeñas */
+    }
+
+    .button {
+        padding: 12px 15px;
+        font-size: 14px; /* Ajustamos el tamaño de la fuente del botón */
+    }
+
+    .submit-wrapper {
+        margin-top: 15px;
+        /* Menos espacio entre el formulario y el botón de envío */
+    }
+
+    h6 {
+        font-size: 14px; /* Reducimos el tamaño de la fuente para la pregunta "Ya tienes cuenta?" */
+        margin-top: 15px; /* Ajustamos el margen superior */
+    }
+
+    #login-button {
+        font-size: 14px; /* Ajustamos el tamaño de la fuente del botón de inicio de sesión */
+        padding: 10px 15px; /* Reducimos el padding */
+        width: 100%; /* El botón de iniciar sesión ocupa el 100% del ancho */
+        margin-top: 10px;
+    }
+
+    .error-message {
+        font-size: 12px; /* Reducimos el tamaño de la fuente de los mensajes de error */
+    }
+
+    .spinner {
+        width: 20px; /* Reducimos el tamaño del spinner */
+        height: 20px;
+    }
+}

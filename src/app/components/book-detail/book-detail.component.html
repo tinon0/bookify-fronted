@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Libro</title>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container-fluid">
+
+                <!-- Botón de menú para abrir el Offcanvas Sidebar -->
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                    aria-controls="offcanvasSidebar" style="margin-right: 20px;">
+                    <i class="fas fa-bars"></i> <!-- Icono de menú -->
+                </button>
+
+                <app-bookify-logo></app-bookify-logo>
+
+
+                <!-- Perfil y Logout con separación -->
+                <div class="ms-auto d-flex align-items-center">
+                    @if (sessionService.get("userRole") === "CLIENT") {
+                    <div class="cart-icon-container">
+                        <i [routerLink]="['/booking-cart']" class="fas fa-shopping-cart icon"
+                            style="font-size: 2rem; margin-right: 50px; cursor: pointer;"></i>
+                        <span [routerLink]="['/booking-cart']" class="cart-count">{{
+                            bookCartService.getCountBooksReserved() }}</span>
+                    </div>
+                    }
+
+                    <i [routerLink]="['/my-profile']" class="fas fa-user-circle icon"
+                        style="font-size: 2rem; margin-right: 50px; cursor: pointer;"></i>
+                    <app-logout></app-logout>
+                </div>
+
+
+            </div>
+        </nav>
+
+
+        <!-- Offcanvas Sidebar -->
+        <app-sidebar></app-sidebar>
+
+
+
+        <!-- Main Content -->
+        <div class="container mt-5 pt-5">
+
+            <div class="book-detail-container">
+                <div class="book-image">
+                    <img [src]="book?.image_file_path ? book?.image_file_path : 'no-image.png'" alt="Portada del libro">
+                </div>
+                <div class="book-info">
+                    <h1>{{ book?.title }}</h1>
+                    <p class="book-detail"><strong>Autor:</strong> {{ book?.author }}</p>
+                    <p class="book-detail"><strong>Género:</strong> {{ book?.genre }}</p>
+                    <p class="book-detail"><strong>Editorial:</strong> {{ book?.editorial }}</p>
+                    <p class="book-detail"><strong>Año de Publicación:</strong> {{ book?.publication_year }}</p>
+                    <p class="book-detail"><strong>ISBN:</strong> {{ book?.isbn }}</p>
+                    <p class="book-detail"><strong>Estado:</strong> {{ book?.status }}</p>
+                    <p class="book-detail"><strong>Precio para Reservar:</strong> ${{ book?.reservation_price }}</p>
+                    @if (sessionService.get("userRole") === "CLIENT") {
+                    <button class="reserve-button" (click)="addBookToCart()">Agregar a reserva</button>
+                    }
+                </div>
+            </div>
+
+
+
+        </div>
+        
+
+    </div>
+    <!-- Footer -->
+        <footer class="text-center py-3 mt-4 text-white">
+            <p>&copy; {{currentYear}} Bookify - UTN</p>
+            <p>Contacto: <a href="mailto:404931@tecnicatura.frc.utn.edu.ar" class="text-white">
+                    404931&#64;tecnicatura.frc.utn.edu.ar</a> | Tel: +54
+                351 1234567</p>
+            <p>Dirección: Av. Universidad Tecnológica 123, Córdoba, Argentina</p>
+        </footer>
+
+</body>
+
+</html>

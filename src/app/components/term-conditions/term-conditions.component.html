@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentación</title>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container-fluid">
+                <!-- Botón de menú para abrir el Offcanvas Sidebar -->
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                    aria-controls="offcanvasSidebar" style="margin-right: 20px">
+                    <i class="fas fa-bars"></i>
+                    <!-- Icono de menú -->
+                </button>
+
+                <!-- Logo Bookify -->
+                <app-bookify-logo></app-bookify-logo>
+
+                <!-- Perfil y Logout con separación -->
+                <div class="ms-auto d-flex align-items-center">
+                    @if (sessionService.get("userRole") === "CLIENT") {
+                    <div class="cart-icon-container">
+                        <i [routerLink]="['/booking-cart']" class="fas fa-shopping-cart icon"
+                            style="font-size: 2rem; margin-right: 50px; cursor: pointer"></i>
+                        <span [routerLink]="['/booking-cart']" class="cart-count">{{
+                            bookCartService.getCountBooksReserved()
+                            }}</span>
+                    </div>
+                    }
+
+                    <i [routerLink]="['/my-profile']" class="fas fa-user-circle icon"
+                        style="font-size: 2rem; margin-right: 50px; cursor: pointer"></i>
+                    <app-logout></app-logout>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Offcanvas Sidebar -->
+        <app-sidebar></app-sidebar>
+
+        <!-- Main Content -->
+        <div class="content">
+            <div class="container mt-5 pt-5">
+                <div class="card shadow-sm p-4">
+                    <!-- Acordeón de Términos y Condiciones -->
+                    <div class="accordion" id="terminosAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTerminos">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTerminos" aria-expanded="true"
+                                    aria-controls="collapseTerminos">
+                                    Términos y Condiciones
+                                </button>
+                            </h2>
+                            <div id="collapseTerminos" class="accordion-collapse collapse show"
+                                aria-labelledby="headingTerminos" data-bs-parent="#terminosAccordion">
+                                <div class="accordion-body">
+                                    <h5> <b> Bienvenido! </b></h5>
+                                    <p>
+                                        Bienvenido a Bookify proporcionado por Valentino Sagripanti. Nos complace
+                                        ofrecerle acceso a nuestro servicio. Sujeto a estos términos y condiciones (los
+                                        "Términos de Servicio") y a la Política de Privacidad correspondiente de 2025.
+                                        Al acceder y utilizar el Servicio, usted expresa su consentimiento, acuerdo y
+                                        entendimiento de los Términos de Servicio y la Política de Privacidad. Si no
+                                        está de acuerdo con los Términos de Servicio o la Política de Privacidad, no
+                                        utilice el Servicio.
+                                    </p>
+                                    <p>
+                                        Si utiliza el servicio está aceptando las modalidades operativas en vigencia
+                                        descriptas más adelante, las declara conocer y aceptar, las que se habiliten en
+                                        el futuro y en los términos y condiciones que a continuación se detallan:
+                                    </p>
+
+                                    <h5> <b> Operaciones Habilitadas </b></h5>
+                                    <p>
+                                        Las operaciones habilitadas son aquellas que estarán disponibles para los
+                                        clientes, quienes deberán cumplir los requisitos que se encuentren vigentes en
+                                        su momento para operar el Servicio. Las mismas podrán ser ampliadas o
+                                        restringidas por el proveedor, comunicándolo previamente con una antelación no
+                                        menor a 60 días, y comprenden entre otras, sin que pueda entenderse
+                                        taxativamente las que se indican a continuación:
+                                    </p>
+
+                                    <h5> <b> Transacciones </b></h5>
+                                    <p>
+                                        En ningún caso debe entenderse que la solicitud de un producto o servicio
+                                        implica obligación alguna para el Acceso y uso del Servicio.
+                                    </p>
+                                    <p>
+                                        Para operar el Servicio se requerirá siempre que se trate de clientes
+                                        registrados quienes podrán acceder mediante cualquier dispositivo con conexión a
+                                        la Red Internet. El cliente deberá proporcionar sus nombres, apellidos, teléfono
+                                        y dirección como requisito previo a la primera operación, en la forma que le sea
+                                        requerida.
+                                    </p>
+                                    <p>
+                                        La clave personal y todo o cualquier otro mecanismo adicional de autenticación
+                                        personal provisto por el Banco tiene el carácter de secreto e intransferible, y
+                                        por lo tanto asumo las consecuencias de su divulgación a terceros, liberando a
+                                        Bookify de toda responsabilidad que de ello se derive. En ningún caso Bookify
+                                        requerirá que le suministre la totalidad de los datos, ni enviará mail
+                                        requiriendo información personal alguna.
+                                    </p>
+
+                                    <h5> <b> Costo del Servicio </b></h5>
+                                    <p>
+                                        La empresa Bookify podrá cobrar comisiones por el mantenimiento y/o uso de este
+                                        Servicio o los que en el futuro implemente, entendiéndose facultado expresamente
+                                        para efectuar los correspondientes débitos en mis cuentas, aún en descubierto,
+                                        por lo que presto para ello mi expresa conformidad. En caso de cualquier
+                                        modificación a la presente previsión, lo comunicará con al menos 60 días de
+                                        antelación.
+                                    </p>
+
+                                    <h5> <b> Vigencia </b></h5>
+                                    <p>
+                                        El Usuario podrá dejar sin efecto la relación que surja de la presente, en forma
+                                        inmediata, sin otra responsabilidad que la derivada de los gastos originados
+                                        hasta ese momento. Si el cliente incumpliera cualquiera de las obligaciones
+                                        asumidas en su relación contractual con Bookify, o de los presentes Términos y
+                                        Condiciones, el Banco podrá decretar la caducidad del presente Servicio en forma
+                                        inmediata, sin que ello genere derecho a indemnización o compensación alguna.
+                                    </p>
+                                    <p>
+                                        Bookify podrá dejar sin efecto la relación que surja de la presente, con un
+                                        preaviso mínimo de 60 días, sin otra responsabilidad.
+                                    </p>
+
+                                    <h5> <b> Validez de Operaciones y Notificaciones </b></h5>
+                                    <p>
+                                        Los registros emitidos por la app serán prueba suficiente de las operaciones
+                                        cursadas por dicho canal. Renuncio expresamente a cuestionar la idoneidad o
+                                        habilidad de ese medio de prueba.
+                                    </p>
+                                    <p>
+                                        A los efectos del cumplimiento de disposiciones legales o contractuales, se
+                                        otorga a las notificaciones por este medio el mismo alcance de las
+                                        notificaciones mediante documento escrito.
+                                    </p>
+
+                                    <h5> <b> Propiedad Intelectual </b></h5>
+                                    <p>
+                                        El software en Argentina está protegido por la ley 11.723, que regula la
+                                        propiedad intelectual y los derechos de autor de todos aquellos creadores de
+                                        obras artísticas, literarias y científicas.
+                                    </p>
+
+                                    <h5> <b> Privacidad de la Información </b></h5>
+                                    <p>
+                                        Para utilizar los Servicios ofrecidos por Bookify, los Usuarios deberán
+                                        facilitar determinados datos de carácter personal. Su información personal se
+                                        procesa y almacena en servidores o medios magnéticos que mantienen altos
+                                        estándares de seguridad y protección tanto física como tecnológica.
+                                    </p>
+                                    <p>
+                                        Para mayor información sobre la privacidad de los Datos Personales y casos en
+                                        los que será revelada la información personal, se pueden consultar nuestras
+                                        políticas de privacidad.
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Separador -->
+                    <div class="my-4"></div>
+
+                    <!-- Título -->
+                    <h4 class="mb-3">Preguntas Frecuentes</h4>
+
+                    <!-- Acordeón FAQ -->
+                    <div class="accordion" id="faqAccordion">
+
+                        <!-- Sin login -->
+                        @if (!sessionService.get("userRole")) {
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading1">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                                    ¿Cómo me registro?
+                                </button>
+                            </h2>
+                            <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Ingresando a <a style="color: #0082fc; cursor: pointer;" [routerLink]="['/login']">Login</a> podras
+                                    ingresar habitualmente con tu correo y contraseña.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading2">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                    ¿Cómo creo un usuario?
+                                </button>
+                            </h2>
+                            <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Ingresando a <a style="color: #0082fc; cursor: pointer;" [routerLink]="['/createUser']">Crear Usuario</a> podras
+                                    crearte tu usuario para poder comenzar a disfrutar de nuestros servicios.
+                                </div>
+                            </div>
+                        </div>
+                        }
+
+                        <!-- CLIENT -->
+                        @if (sessionService.get("userRole") === "CLIENT") {
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading3">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                    ¿Cómo me registro?
+                                </button>
+                            </h2>
+                            <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Ingresando a <a style="color: #0082fc; cursor: pointer;" [routerLink]="['/login']">Login</a> podras
+                                    ingresar habitualmente con tu correo y contraseña.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading4">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                    ¿Cómo creo un usuario?
+                                </button>
+                            </h2>
+                            <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Ingresando a <a style="color: #0082fc; cursor: pointer;" [routerLink]="['/createUser']">Crear Usuario</a> podras
+                                    crearte tu usuario para poder comenzar a disfrutar de nuestros servicios.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading5">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                    ¿Cómo reservo libros?
+                                </button>
+                            </h2>
+                            <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Si estas en el <a style="color: #0082fc; cursor: pointer;" [routerLink]="['/principal']">Menú Principal</a> podras
+                                    ya ver una selección de recomendaciones de libros. En estos habrá un apartado de directamente <b>Agregar a Reserva</b> que hará justamente aquello. 
+                                    También existe <b>Ver Más...</b> que te mostrará los detalles del libro que seleccionaste, desde ahí podras hacer lo mismo.
+                                    Cuando agregues libros a tu carrito de reservas, podras ver el ícono en la parte superior derecha de <i class="fas fa-shopping-cart" style="font-size: 0.9rem; color: #333;"></i>
+                                    que indicará tu cantidad de libros añadidos. Presionandoló irás <a style="color: #0082fc; cursor: pointer;" [routerLink]="['/booking-cart']">Tu Carrito</a> y encontrarás el listado
+                                    con los detalles y la posibilidad de reservarlo directamente.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading6">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                                    ¿Qué debo hacer para pagar una reserva premium?
+                                </button>
+                            </h2>
+                            <div id="collapse6" class="accordion-collapse collapse" aria-labelledby="heading6"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Bookify usa Mercado Pago para gestionar las transacciones de dinero. Por ende si reservas algo premium, serás redirigido a la plataforma de pagos
+                                    donde podrás utilizar los medios de pago aceptados por el servicio particular.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading7">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                                    ¿Dónde veo mis reservas?
+                                </button>
+                            </h2>
+                            <div id="collapse7" class="accordion-collapse collapse" aria-labelledby="heading7"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Podrás ver tus reservas desde <a style="color: #0082fc; cursor: pointer;" [routerLink]="['/my-reservations']">Mis Reservas</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading8">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                                    ¿Cómo puedo donar?
+                                </button>
+                            </h2>
+                            <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    En el apartado de <a style="color: #0082fc; cursor: pointer;" [routerLink]="['/client-donate']">Donar</a> podrás ingresar el monto 
+                                    que quisera donar, el cual luego será redireccionado a Mercado Pago para terminarla.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading9">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
+                                    ¿Cómo puedo saber si estoy multado?
+                                </button>
+                            </h2>
+                            <div id="collapse9" class="accordion-collapse collapse" aria-labelledby="heading9"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Bookify gestiona automáticamente el estado de las reservas. Si en algún momento una reserva suya termina excede la fecha de devolución 
+                                    se le será notificado con las instrucciones para saldar esa multa. <br>
+                                    Podrás ver las multas asociadas a su cuenta desde <a style="color: #0082fc; cursor: pointer;" [routerLink]="['/my-fines']">Mis Multas</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading10">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse10" aria-expanded="false" aria-controls="collapse10">
+                                    ¿A quién y cómo comunicarle una duda?
+                                </button>
+                            </h2>
+                            <div id="collapse10" class="accordion-collapse collapse" aria-labelledby="heading10"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Ante cualquier duda comunicarse con <a href="mailto:404931@tecnicatura.frc.utn.edu.ar" style="color: #0082fc;">
+                                    404931&#64;tecnicatura.frc.utn.edu.ar</a>
+                                </div>
+                            </div>
+                        </div>
+                        }
+
+                        <!-- ADMIN -->
+                        @if (sessionService.get("userRole") === "ADMIN") {
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading11">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse11" aria-expanded="false" aria-controls="collapse11">
+                                    ¿Cómo registro un nuevo libro?
+                                </button>
+                            </h2>
+                            <div id="collapse11" class="accordion-collapse collapse" aria-labelledby="heading11"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Desde la sección <a style="color: #0082fc; cursor: pointer;" [routerLink]="['/admin-view-books']">Libros</a> podrá ver el botón 
+                                    <a class="text-success"> <b> verde + Subir un Libro</b> </a> que le dejará a través de un formulario, cargar los datos necesarios para 
+                                    ingresar un nuevo libro al sistema
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading12">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse12" aria-expanded="false" aria-controls="collapse12">
+                                    ¿Dónde veo las reservas?
+                                </button>
+                            </h2>
+                            <div id="collapse12" class="accordion-collapse collapse" aria-labelledby="heading12"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Desde la sección <a style="color: #0082fc; cursor: pointer;" [routerLink]="['/reservations']">Reservas</a> podrá verlas
+                                    y conocer sus detalles como también eliminar, confirmarlas o finalizarlas.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading13">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse13" aria-expanded="false" aria-controls="collapse13">
+                                    ¿Cómo me comunico con mis clientes?
+                                </button>
+                            </h2>
+                            <div id="collapse13" class="accordion-collapse collapse" aria-labelledby="heading13"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Desde la sección <a style="color: #0082fc; cursor: pointer;" [routerLink]="['/admin-notifications']">Notificar</a> podrá ver
+                                    y conocer los detalles de todos los clientes para así seleccionar quienes quiera comunicarles un mensaje por correo electrónico.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading14">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse14" aria-expanded="false" aria-controls="collapse14">
+                                    ¿Cómo saber si tuve donaciones?
+                                </button>
+                            </h2>
+                            <div id="collapse14" class="accordion-collapse collapse" aria-labelledby="heading14"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Desde la sección <a style="color: #0082fc; cursor: pointer;" [routerLink]="['/donations']">Donaciones</a> podrá ver
+                                    y conocer los detalles de las donaciones que ha tenido como también de los clientes que las han hecho.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading15">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse15" aria-expanded="false" aria-controls="collapse15">
+                                    ¿Cómo multar a alguien?
+                                </button>
+                            </h2>
+                            <div id="collapse15" class="accordion-collapse collapse" aria-labelledby="heading15"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Bookify solo multa a los clientes que han tenido reservas de las cuales su fecha de devolución ha sido excedida y no han sido finalizadas.
+                                    Este proceso es automático.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading16">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse16" aria-expanded="false" aria-controls="collapse16">
+                                    ¿Dónde veo mis clientes?
+                                </button>
+                            </h2>
+                            <div id="collapse16" class="accordion-collapse collapse" aria-labelledby="heading16"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Desde la sección <a style="color: #0082fc; cursor: pointer;" [routerLink]="['/clients']">Clientes</a> podrá ver
+                                    y conocer sus detalles.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading17">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse17" aria-expanded="false" aria-controls="collapse17">
+                                    ¿Dónde veo los pagos de reservas premium?
+                                </button>
+                            </h2>
+                            <div id="collapse17" class="accordion-collapse collapse" aria-labelledby="heading17"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Desde la sección <a style="color: #0082fc; cursor: pointer;" [routerLink]="['/payments']">Pagos</a> podrá ver
+                                    y conocer los detalles de aquellos pagos como también los datos de la reserva misma y de quién la realizó.
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="text-center py-3 mt-4 text-white">
+        <p>&copy; {{ currentYear }} Bookify - UTN</p>
+        <p>
+            Contacto:
+            <a href="mailto:404931@tecnicatura.frc.utn.edu.ar" class="text-white">
+                404931&#64;tecnicatura.frc.utn.edu.ar</a>
+            | Tel: +54 351 1234567
+        </p>
+        <p>Dirección: Av. Universidad Tecnológica 123, Córdoba, Argentina</p>
+    </footer>
+</body>
+
+</html>

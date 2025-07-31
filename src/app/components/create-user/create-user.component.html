@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar Cliente</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Registrar Cliente</h1>
+            <form [formGroup]="form" (ngSubmit)="submit()" id="form">
+                <div class="form-row">
+                    <div class="mb-3">
+
+                        <label for="email" class="form-label">Correo Electrónico</label>
+                        <input formControlName="mail" 
+                        type="email" 
+                        class="form-control" 
+                        id="email" 
+                        name="email" 
+                        placeholder="Introduce tu correo electrónico" 
+                        required />
+                        @if (form.get('mail')?.invalid && (form.get('mail')?.touched || form.get('mail')?.dirty)) {
+                            @if (form.get('mail')?.hasError('required')) {
+                                <small class="error-message"> Campo Obligatorio </small>
+                            }
+                            @if (form.get('mail')?.hasError('email')) {
+                                <small class="error-message"> Correo electrónico inválido </small>
+                            }
+                        }
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input formControlName="password" 
+                        type="password" 
+                        class="form-control" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Introduce tu contraseña" 
+                        required />
+                        @if (form.get('password')?.invalid && (form.get('password')?.touched || form.get('password')?.dirty)) {
+                            @if (form.get('password')?.hasError('required')) {
+                                <small class="error-message"> Campo Obligatorio </small>
+                            }
+                            @if (form.get('password')?.hasError('minlength')) {
+                                <small class="error-message"> Contraseña debe tener mínimo 8 caracteres </small>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre</label>
+                        <input formControlName="name" 
+                        type="text" 
+                        class="form-control" 
+                        id="name" 
+                        name="name" 
+                        placeholder="Introduce tu nombre" 
+                        required />
+                        @if (form.get('name')?.invalid && (form.get('name')?.touched || form.get('name')?.dirty)) {
+                            @if (form.get('name')?.hasError('required')) {
+                                <small class="error-message"> Campo Obligatorio </small>
+                            }
+                            @if (form.get('name')?.hasError('minlength')) {
+                                <small class="error-message"> Nombre debe tener mínimo 2 caracteres </small>
+                            }
+                        }
+                    </div>
+                    <div class="mb-3">
+                        <label for="surname" class="form-label">Apellidos</label>
+                        <input formControlName="surname" 
+                        type="text" 
+                        class="form-control" 
+                        id="surname" 
+                        name="surname" 
+                        placeholder="Introduce tus apellidos" 
+                        required />
+                        @if (form.get('surname')?.invalid && (form.get('surname')?.touched || form.get('surname')?.dirty)) {
+                            @if (form.get('surname')?.hasError('required')) {
+                                <small class="error-message"> Campo Obligatorio </small>
+                            }
+                            @if (form.get('surname')?.hasError('minlength')) {
+                                <small class="error-message"> Apellido debe tener mínimo 2 caracteres </small>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="mb-3">
+                        <label for="telephone" class="form-label">Teléfono</label>
+                        <input formControlName="telephone" 
+                        type="number" 
+                        class="form-control" 
+                        id="telephone" 
+                        name="telephone" 
+                        placeholder="Introduce tu teléfono" 
+                        required />
+                        @if (form.get('telephone')?.invalid && (form.get('telephone')?.touched || form.get('telephone')?.dirty)) {
+                            @if (form.get('telephone')?.hasError('required')) {
+                                <small class="error-message"> Campo Obligatorio </small>
+                            }
+                            @if (form.get('telephone')?.hasError('pattern')) {
+                                <small class="error-message"> Teléfono inválido </small>
+                            }
+                        }
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Dirección</label>
+                        <textarea formControlName="address" 
+                        class="form-control" 
+                        id="address" 
+                        name="address" 
+                        placeholder="Introduce tu dirección" 
+                        required>
+                        </textarea>
+                        @if (form.get('address')?.invalid && (form.get('address')?.touched || form.get('address')?.dirty)) {
+                            @if (form.get('address')?.hasError('required')) {
+                                <small class="error-message"> Campo Obligatorio </small>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="submit-wrapper">
+
+                    @if (!isLoading) {
+                        <button type="submit" class="button" id="submit-button" [disabled]="isLoading || form.invalid"> Registrar Cliente </button>
+                    }
+                    @if (isLoading) {
+                        <div class="spinner"></div>
+                    } 
+                </div>
+                
+            </form>
+            <h6 style="text-align: center; color: rgb(0, 41, 131);" class="mt-4">Ya tienes cuenta?</h6>
+            <button class="btn btn-primary" id="login-button" [routerLink]="['/login']" routerLinkActive="router-link-active" >Iniciar Sesión</button>
+        </div>
+    </div>
+</body>
+
+</html>

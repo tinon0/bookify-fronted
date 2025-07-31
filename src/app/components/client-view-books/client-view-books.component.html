@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libros</title>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container-fluid">
+                <!-- Botón de menú para abrir el Offcanvas Sidebar -->
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                    aria-controls="offcanvasSidebar" style="margin-right: 20px">
+                    <i class="fas fa-bars"></i>
+                    <!-- Icono de menú -->
+                </button>
+
+                                    <app-bookify-logo></app-bookify-logo>
+
+
+                <!-- Perfil y Logout con separación -->
+                <div class="ms-auto d-flex align-items-center">
+                    <div class="cart-icon-container">
+                        <i [routerLink]="['/booking-cart']" class="fas fa-shopping-cart icon"
+                            style="font-size: 2rem; margin-right: 50px; cursor: pointer;"></i>
+                        <span [routerLink]="['/booking-cart']" class="cart-count">{{
+                            bookCartService.getCountBooksReserved()
+                            }}</span>
+                    </div>
+                    <i [routerLink]="['/my-profile']" class="fas fa-user-circle icon"
+                        style="font-size: 2rem; margin-right: 50px; cursor: pointer"></i>
+                    <app-logout></app-logout>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Offcanvas Sidebar -->
+        <app-sidebar></app-sidebar>
+
+        <div class="content">
+            <div class="container mt-5 pt-5">
+                <h3>Catálogo de Libros</h3>
+
+                <!-- Barra de Búsqueda y Botón de Filtros -->
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <input type="text" class="form-control" placeholder="Buscar libro..." [(ngModel)]="searchText">
+
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="fas fa-filter"></i> Filtros
+                        </button>
+                        <div class="dropdown-menu p-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="filterPremium"
+                                    [(ngModel)]="filterPremium">
+                                <label class="form-check-label" for="filterPremium">Premium</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="filterNormal"
+                                    [(ngModel)]="filterNormal">
+                                <label class="form-check-label" for="filterNormal">Normal</label>
+                            </div>
+                            <button class="btn btn-danger btn-sm mt-2" (click)="clearFilters()">Quitar filtros</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid de libros (4 por fila) -->
+                <div class="book-grid">
+                    @for (book of getFilteredBooks(); track book.id_book) {
+                    <div class="book-card">
+                        @if (book.image_file_path === null) {
+                        <img src="no-image.png" alt={{book.title}} class="book-cover">
+                        }
+                        @if (book.image_file_path !== null) {
+                        <img [src]="book.image_file_path" alt={{book.title}} class="book-cover">
+                        }
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        <p class="card-isbn">ISBN: {{ book.isbn }}</p>
+                        @if (book.reservation_price) {
+                            <p class="card-price"> <b> ${{ book.reservation_price }} </b> </p>
+                        }
+                        <button id="viewMoreBtn" class="btn btn-secondary btn-sm me-3"
+                            [routerLink]="['/book-details/' + book.id_book]">Ver más</button>
+                        <button id="addToCartBtn" class="btn btn-outline-info btn-sm" (click)="addBookToCart(book.id_book)">
+                            Agregar a Reserva
+                        </button>
+                    </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 mt-4 text-white">
+        <p>&copy; {{ currentYear }} Bookify - UTN</p>
+        <p>
+            Contacto:
+            <a href="mailto:404931@tecnicatura.frc.utn.edu.ar" class="text-white">
+                404931&#64;tecnicatura.frc.utn.edu.ar</a>
+            | Tel: +54 351 1234567
+        </p>
+        <p>Dirección: Av. Universidad Tecnológica 123, Córdoba, Argentina</p>
+    </footer>
+</body>
+
+</html>

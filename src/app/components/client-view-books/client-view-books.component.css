@@ -1,0 +1,221 @@
+/* Fondo global */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #c6f8ff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Contenedor principal que ocupa toda la pantalla */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Contenido principal que crece para empujar el footer */
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #54b5ff;
+}
+
+.navbar-brand {
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #ffcc00 !important;
+}
+
+.icon {
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+/* Sidebar (Offcanvas) */
+.offcanvas-start {
+    background-color: #8dd7ff;
+}
+
+.offcanvas-header {
+    border-bottom: 1px solid #01579b;
+}
+
+.offcanvas .btn-close {
+    color: white;
+}
+
+.offcanvas .nav-link {
+    color: #035a9c;
+    font-size: x-large;
+}
+
+/* Footer */
+footer {
+    background-color: #54b5ff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-weight: bold;
+    width: 100%;
+    margin-top: auto;
+    position: sticky;
+}
+
+/* Mensajes de error */
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 15px;
+    display: block;
+}
+
+.cart-icon-container {
+    position: relative;
+    display: inline-block;
+    margin-right: (0, 0, 0, 970px);
+    /* Espaciado adecuado entre los iconos */
+}
+
+.cart-icon-container i {
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    /* Ajusta la posición vertical para que no quede demasiado arriba */
+    background-color: #ff0000;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* BOOKS */
+/* Grid de libros */
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Tarjeta del libro */
+.book-card {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Imagen del libro */
+.book-cover {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Detalles */
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.card-isbn {
+    font-size: 14px;
+    color: #777;
+}
+
+.card-price {
+    font-size: 17px;
+    color: #1d1d1d;
+}
+.form-control {
+    width: 35%;
+}
+
+
+@media (max-width: 768px) {
+
+    .book-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .book-card {
+        flex-direction: column;
+        align-items: center;
+        padding: 16px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .card-title {
+        font-size: 16px;
+        margin-top: 5px;
+    }
+
+    .card-price {
+        font-size: 15px;
+    }
+
+    .form-control {
+        width: 50px;
+    }
+
+    #viewMoreBtn,
+    #addToCartBtn {
+        display: inline-block;
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+
+    .d-flex.align-items-center.gap-2.mb-3 {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .dropdown {
+        margin-left: auto;
+    }
+
+    .dropdown-toggle {
+        white-space: nowrap;
+    }
+
+    .form-control {
+        width: calc(100% - 120px); /* Esto hace que la barra de búsqueda ocupe todo el espacio disponible, restando el espacio que necesita el botón de filtros */
+    }
+}

@@ -1,0 +1,156 @@
+/* Fondo global */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #c6f8ff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Contenedor principal que ocupa toda la pantalla */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Contenido principal que crece para empujar el footer */
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #54b5ff;
+}
+
+.navbar-brand {
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #ffcc00 !important;
+}
+
+.icon {
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+/* Sidebar (Offcanvas) */
+.offcanvas-start {
+    background-color: #8dd7ff;
+}
+
+.offcanvas-header {
+    border-bottom: 1px solid #01579b;
+}
+
+.offcanvas .btn-close {
+    color: white;
+}
+
+.offcanvas .nav-link {
+    color: #035a9c;
+    font-size: x-large;
+}
+
+/* Footer */
+footer {
+    background-color: #54b5ff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-weight: bold;
+    width: 100%;
+    margin-top: auto;
+    position: sticky;
+}
+
+/* Mensajes de error */
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 15px;
+    display: block;
+}
+
+.cart-icon-container {
+    position: relative;
+    display: inline-block;
+    margin-right: (0,0,0,970px); /* Espaciado adecuado entre los iconos */
+}
+
+.cart-icon-container i {
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px; /* Ajusta la posición vertical para que no quede demasiado arriba */
+    background-color: #ff0000;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.form-control {
+    width: 35%;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+
+    /* Tabla responsiva */
+    table {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        display: block; /* Para habilitar el desplazamiento horizontal */
+        white-space: nowrap; /* Prevenir que las celdas se rompan */
+    }
+
+    /* Celdas dentro de la tabla */
+    th, td {
+        padding: 8px;
+        font-size: 12px; /* Ajuste de tamaño de fuente */
+    }
+
+    /* Hacer que la cabecera sea más compacta */
+    th {
+        font-size: 14px;
+    }
+
+
+    /* Ajuste del buscador */
+    .form-control {
+        width: 100%; /* Asegura que el input de búsqueda ocupe todo el ancho */
+        margin-bottom: 10px; /* Añadir un poco de margen */
+    }
+
+    /* Modificación de los botones y dropdown */
+    .dropdown-menu {
+        width: 100%; /* Hacer que el menú de filtros se ajuste al ancho */
+    }
+
+}
+

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tus Libros</title>
+</head>
+
+<body>
+
+
+    <div class="main-container">
+
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container-fluid">
+                <!-- Botón de menú para abrir el Offcanvas Sidebar -->
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                    aria-controls="offcanvasSidebar" style="margin-right: 20px">
+                    <i class="fas fa-bars"></i>
+                    <!-- Icono de menú -->
+                </button>
+
+                <app-bookify-logo></app-bookify-logo>
+
+
+                <!-- Perfil y Logout con separación -->
+                <div class="ms-auto d-flex align-items-center">
+                    <i [routerLink]="['/my-profile']" class="fas fa-user-circle icon"
+                        style="font-size: 2rem; margin-right: 50px; cursor: pointer"></i>
+                    <app-logout></app-logout>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Offcanvas Sidebar -->
+        <app-sidebar></app-sidebar>
+
+        <div class="content">
+
+            <!-- Main Content -->
+            <div class="container mt-5 pt-5">
+
+                <h3>Estos son tus libros:</h3>
+
+                <!-- Barra de Búsqueda -->
+                <!-- Responsive Search + Buttons -->
+                <div class="mb-3">
+
+                    <!-- Desktop layout (visible solo en md en adelante) -->
+                    <div class="d-none d-md-flex justify-content-between align-items-center">
+                        <!-- Barra de búsqueda -->
+                        <input type="text" class="form-control w-50 me-3" placeholder="Buscar libro..."
+                            [(ngModel)]="searchText" />
+
+                        <!-- Botón Filtros -->
+                        <div class="dropdown me-3">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="fas fa-filter me-1"></i> Filtros
+                            </button>
+                            <div class="dropdown-menu p-3">
+                                <!-- Filtros aquí -->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="filterPremium"
+                                        [(ngModel)]="filterPremium">
+                                    <label class="form-check-label" for="filterPremium">Premium</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="filterNormal"
+                                        [(ngModel)]="filterNormal">
+                                    <label class="form-check-label" for="filterNormal">Normal</label>
+                                </div>
+                                <hr>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="filterLibre"
+                                        [(ngModel)]="filterLibre">
+                                    <label class="form-check-label" for="filterLibre">Libre</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="filterReservado"
+                                        [(ngModel)]="filterReservado">
+                                    <label class="form-check-label" for="filterReservado">Reservado</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="filterEliminado"
+                                        [(ngModel)]="filterEliminado">
+                                    <label class="form-check-label" for="filterEliminado">Eliminado</label>
+                                </div>
+                                <button class="btn btn-danger btn-sm mt-2 w-100" (click)="clearFilters()">Quitar
+                                    filtros</button>
+                            </div>
+                        </div>
+
+                        <!-- Botón Subir Libro -->
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadBookModal">
+                            <i class="fas fa-plus me-1"></i> Subir un Libro
+                        </button>
+                    </div>
+
+                    <!-- Mobile layout (visible solo en pantallas chicas) -->
+                    <div class="d-flex d-md-none flex-column gap-2">
+                        <!-- Barra de búsqueda -->
+                        <input type="text" class="form-control" placeholder="Buscar libro..."
+                            [(ngModel)]="searchText" />
+
+                        <!-- Botones Filtros y Subir (mitad cada uno) -->
+                        <div class="d-flex gap-2">
+                            <!-- Botón Filtros -->
+                            <div class="flex-fill dropdown">
+                                <button class="btn btn-secondary w-100 d-flex align-items-center justify-content-center"
+                                    type="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-filter me-2"></i>
+                                </button>
+                                <div class="dropdown-menu p-3 w-100">
+                                    <!-- Filtros aquí (mismos que arriba) -->
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="filterPremiumMobile"
+                                            [(ngModel)]="filterPremium">
+                                        <label class="form-check-label" for="filterPremiumMobile">Premium</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="filterNormalMobile"
+                                            [(ngModel)]="filterNormal">
+                                        <label class="form-check-label" for="filterNormalMobile">Normal</label>
+                                    </div>
+                                    <hr>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="filterLibreMobile"
+                                            [(ngModel)]="filterLibre">
+                                        <label class="form-check-label" for="filterLibreMobile">Libre</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="filterReservadoMobile"
+                                            [(ngModel)]="filterReservado">
+                                        <label class="form-check-label" for="filterReservadoMobile">Reservado</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="filterEliminadoMobile"
+                                            [(ngModel)]="filterEliminado">
+                                        <label class="form-check-label" for="filterEliminadoMobile">Eliminado</label>
+                                    </div>
+                                    <button class="btn btn-danger btn-sm mt-2 w-100" (click)="clearFilters()">Quitar
+                                        filtros</button>
+                                </div>
+                            </div>
+
+                            <!-- Botón Subir Libro -->
+                            <button class="btn btn-success flex-fill d-flex align-items-center justify-content-center"
+                                data-bs-toggle="modal" data-bs-target="#uploadBookModal">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Portada</th>
+                            <th>Título</th>
+                            <th>Autor</th>
+                            <th>Género</th>
+                            <th>Editorial</th>
+                            <th>Año Publicación</th>
+                            <th>ISBN</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (book of getFilteredBooks(); track book.id_book) {
+                        <tr>
+                            <td>
+                                <img src="{{ book.image_file_path || 'no-image.png' }}" alt="Portada"
+                                    style="max-width: 50px; height: auto;">
+                            </td>
+                            <td>{{ book.title }}</td>
+                            <td>{{ book.author }}</td>
+                            <td>{{ book.genre }}</td>
+                            <td>{{ book.editorial }}</td>
+                            <td>{{ book.publication_year }}</td>
+                            <td>{{ book.isbn }}</td>
+                            <td>
+                                <span class="badge {{ book.is_premium ? 'text-bg-warning' : 'text-bg-info' }}">
+                                    {{ book.is_premium ? 'PREMIUM' : 'NORMAL' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge 
+                    {{ book.status === 'LIBRE' ? 'text-bg-success' :
+                       book.status === 'RESERVADO' ? 'text-bg-secondary' : 
+                       book.status === 'ELIMINADO' ? 'text-bg-danger' : '' }}">
+                                    {{ book.status }}
+                                </span>
+                            </td>
+                            <td>
+                                @if (book.status !== 'ELIMINADO') {
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        Opciones
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <button class="dropdown-item text-danger" data-bs-toggle="modal"
+                                                data-bs-target="#confirmDeleteModal" (click)="setBookToDelete(book)">
+                                                Eliminar
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#editBookModal" (click)="setSelectedBook(book)">
+                                                Modificar
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                }
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+
+                <!-- Modal de Modificación -->
+                <div class="modal fade" id="editBookModal" tabindex="-1" aria-labelledby="editBookModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editBookModalLabel">Modificar Libro</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form #form="ngForm" (ngSubmit)="updateBook()" enctype="multipart/form-data">
+                                    <div class="mb-3">
+                                        <label for="title" class="form-label">Título</label>
+                                        <input type="text" name="title" class="form-control" id="title"
+                                            [(ngModel)]="selectedBook.title" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="author" class="form-label">Autor</label>
+                                        <input type="text" name="author" class="form-control" id="author"
+                                            [(ngModel)]="selectedBook.author" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="genre" class="form-label">Género</label>
+                                        <input type="text" name="genre" class="form-control" id="genre"
+                                            [(ngModel)]="selectedBook.genre" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editorial" class="form-label">Editorial</label>
+                                        <input type="text" name="editorial" class="form-control" id="editorial"
+                                            [(ngModel)]="selectedBook.editorial" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="publication_year" class="form-label">Año Publicación</label>
+                                        <input type="number" name="publication_year" class="form-control"
+                                            id="publication_year" [(ngModel)]="selectedBook.publication_year" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="isbn" class="form-label">ISBN</label>
+                                        <input type="text" name="isbn" class="form-control" id="isbn"
+                                            [(ngModel)]="selectedBook.isbn" required>
+                                    </div>
+                                    <!-- Es Premium? -->
+                                    <div class="mb-3">
+                                        <label for="is_premium" class="form-label">Es Premium?</label>
+                                        <select class="form-control" name="is_premium"
+                                            [(ngModel)]="selectedBook.is_premium"
+                                            (change)="togglePriceFieldUpdate($event)" required>
+                                            <option [value]="true">Sí</option>
+                                            <option [value]="false">No</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Precio de Reserva (Solo si es Premium) -->
+                                    <div class="mb-3" *ngIf="showPrice">
+                                        <label for="reservation_price" class="form-label">Precio de Reserva</label>
+                                        <input type="number" name="reservation_price" class="form-control"
+                                            [(ngModel)]="selectedBook.reservation_price" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="image" class="form-label">Imagen de Portada</label>
+                                        <input type="file" name="image" class="form-control" id="image" accept="image/*"
+                                            (change)="uploadImage($event)">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">Modificar Libro</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cancelar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal de Confirmación de Eliminación -->
+                <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Estás seguro de que deseas eliminar el libro
+                                    <strong>{{selectedBook.title}}</strong>?
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                                    (click)="confirmDelete()">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal para Subir un Libro -->
+                <div class="modal fade" id="uploadBookModal" tabindex="-1" aria-labelledby="uploadBookModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="uploadBookModalLabel">Subir un Nuevo Libro</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form [formGroup]="newBookForm" (ngSubmit)="createBook()" enctype="multipart/form-data">
+                                    <div class="mb-3">
+                                        <label for="title" class="form-label">Título</label>
+                                        <input type="text" id="title" class="form-control" formControlName="title">
+                                        @if (newBookForm.get('title')?.invalid && (newBookForm.get('title')?.touched ||
+                                        newBookForm.get('title')?.dirty)) {
+                                        <div class="error-message">
+                                            El título es obligatorio.
+                                        </div>
+                                        }
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="author" class="form-label">Autor</label>
+                                        <input type="text" id="author" class="form-control" formControlName="author">
+                                        @if (newBookForm.get('author')?.invalid && (newBookForm.get('author')?.touched
+                                        || newBookForm.get('author')?.dirty)) {
+                                        <div class="error-message">
+                                            El autor es obligatorio.
+                                        </div>
+                                        }
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="genre" class="form-label">Género</label>
+                                        <input type="text" id="genre" class="form-control" formControlName="genre">
+                                        @if (newBookForm.get('genre')?.invalid && (newBookForm.get('genre')?.touched ||
+                                        newBookForm.get('genre')?.dirty)) {
+                                        <div class="error-message">
+                                            El género es obligatorio.
+                                        </div>
+                                        }
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="editorial" class="form-label">Editorial</label>
+                                        <input type="text" id="editorial" class="form-control"
+                                            formControlName="editorial">
+                                        @if (newBookForm.get('editorial')?.invalid &&
+                                        (newBookForm.get('editorial')?.touched || newBookForm.get('editorial')?.dirty))
+                                        {
+                                        <div class="error-message">
+                                            La editorial es obligatoria.
+                                        </div>
+                                        }
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="publication_year" class="form-label">Año Publicación</label>
+                                        <input type="number" id="publication_year" class="form-control"
+                                            formControlName="publication_year">
+                                        @if (newBookForm.get('publication_year')?.invalid &&
+                                        (newBookForm.get('publication_year')?.touched ||
+                                        newBookForm.get('publication_year')?.dirty)) {
+                                        <div class="error-message">
+                                            El año es obligatorio.
+                                        </div>
+                                        }
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="isbn" class="form-label">ISBN</label>
+                                        <input type="text" id="isbn" class="form-control" formControlName="isbn">
+                                        @if (newBookForm.get('isbn')?.invalid && (newBookForm.get('isbn')?.touched ||
+                                        newBookForm.get('isbn')?.dirty)) {
+                                        @if(newBookForm.get('isbn')?.hasError('required')) {
+                                        <div class="error-message">
+                                            El ISBN es obligatorio.
+                                        </div>
+                                        }
+                                        @if(newBookForm.get('isbn')?.hasError('pattern')) {
+                                        <div class="error-message">
+                                            El ISBN es incorrecto.
+                                        </div>
+                                        }
+                                        }
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="is_premium" class="form-label">Es Premium?</label>
+                                        <select id="is_premium" class="form-control" formControlName="is_premium"
+                                            (change)="togglePriceField($event)">
+                                            @for (option of [{value: true, label: 'Sí'}, {value: false, label: 'No'}];
+                                            track option) {
+                                            <option [value]="option.value">{{ option.label }}</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                    @if (showPrice) {
+                                    <div class="mb-3">
+                                        <label for="reservation_price" class="form-label">Precio de Reserva</label>
+                                        <input type="number" id="reservation_price" class="form-control"
+                                            formControlName="reservation_price">
+                                    </div>
+                                    @if (newBookForm.get('reservation_price')?.invalid &&
+                                    (newBookForm.get('reservation_price')?.touched ||
+                                    newBookForm.get('reservation_price')?.dirty)) {
+                                    @if(newBookForm.get('reservation_price')?.hasError('required')) {
+                                    <div class="error-message">
+                                        El precio debe ser aclarado.
+                                    </div>
+                                    }
+                                    @if(newBookForm.get('reservation_price')?.hasError('min')) {
+                                    <div class="error-message">
+                                        El precio inválido.
+                                    </div>
+                                    }
+                                    }
+                                    }
+
+
+                                    <div class="mb-3">
+                                        <label for="image" class="form-label">Imagen de Portada</label>
+                                        <input type="file" id="image" class="form-control" accept="image/*"
+                                            (change)="newUploadImage($event)">
+                                        @if (newBookForm.get('image')?.invalid && (newBookForm.get('image')?.touched ||
+                                        newBookForm.get('image')?.dirty)
+                                        || !newBookForm.get('image')?.value) {
+                                        <div class="error-message">
+                                            Recuerda seleccionar una imagen.
+                                        </div>
+                                        }
+                                    </div>
+                                    @if (!isLoading) {
+                                    <button type="submit" class="btn btn-success" [disabled]="newBookForm.invalid">Subir
+                                        Libro
+                                    </button>
+                                    }
+                                    @if (isLoading) {
+                                    <div class="spinner-wrapper">
+                                        <div class="spinner"></div>
+                                    </div>
+                                    }
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer class="text-center py-3 mt-4 text-white">
+            <p>&copy; {{ currentYear }} Bookify - UTN</p>
+            <p>
+                Contacto:
+                <a href="mailto:404931@tecnicatura.frc.utn.edu.ar" class="text-white">
+                    404931&#64;tecnicatura.frc.utn.edu.ar</a>
+                | Tel: +54 351 1234567
+            </p>
+            <p>Dirección: Av. Universidad Tecnológica 123, Córdoba, Argentina</p>
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Reservas</title>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container-fluid">
+                <!-- Botón de menú para abrir el Offcanvas Sidebar -->
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                    aria-controls="offcanvasSidebar" style="margin-right: 20px">
+                    <i class="fas fa-bars"></i>
+                    <!-- Icono de menú -->
+                </button>
+
+                                    <app-bookify-logo></app-bookify-logo>
+
+
+                <!-- Perfil y Logout con separación -->
+                <div class="ms-auto d-flex align-items-center">
+                    <div class="cart-icon-container">
+                        <i [routerLink]="['/booking-cart']" class="fas fa-shopping-cart icon"
+                            style="font-size: 2rem; margin-right: 50px; cursor: pointer;"></i>
+                        <span [routerLink]="['/booking-cart']" class="cart-count">{{
+                            bookCartService.getCountBooksReserved() }}</span>
+                    </div>
+                    <i [routerLink]="['/my-profile']" class="fas fa-user-circle icon"
+                        style="font-size: 2rem; margin-right: 50px; cursor: pointer"></i>
+                    <app-logout></app-logout>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Offcanvas Sidebar -->
+        <app-sidebar></app-sidebar>
+
+        <div class="container">
+            <div class="container mt-5 pt-5">
+                <h1>Mis Reservas</h1>
+
+                <!-- Barra de Búsqueda y Botón de Filtros -->
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <input type="text" class="form-control" placeholder="Buscar una reserva..."
+                        [(ngModel)]="searchText">
+
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="fas fa-filter"></i> Filtros
+                        </button>
+                        <div class="dropdown-menu p-3">
+                            <!-- Filtros por estado -->
+                            <label class="fw-bold">Buscar por Estado</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="filterPendiente"
+                                    [(ngModel)]="filterPendiente">
+                                <label class="form-check-label" for="filterPendiente">Pendiente</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="filterFinalizado"
+                                    [(ngModel)]="filterFinalizado">
+                                <label class="form-check-label" for="filterFinalizado">Finalizado</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="filterCancelado"
+                                    [(ngModel)]="filterCancelado">
+                                <label class="form-check-label" for="filterCancelado">Cancelado</label>
+                            </div>
+
+                            <hr>
+
+                            <!-- Filtros por tipo (Premium o Normal) -->
+                            <label class="fw-bold">Buscar por Tipo</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="filterPremium"
+                                    [(ngModel)]="filterPremium">
+                                <label class="form-check-label" for="filterPremium">Premium</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="filterNormal"
+                                    [(ngModel)]="filterNormal">
+                                <label class="form-check-label" for="filterNormal">Normal</label>
+                            </div>
+                            <hr>
+                            <!-- Filtro por fecha -->
+                            <div class="mb-2">
+                                <label class="fw-bold">Buscar por Fechas</label>
+                                <label for="startDate">Desde:</label>
+                                <input type="date" id="startDate" class="form-control" [(ngModel)]="startDate">
+                            </div>
+                            <div class="mb-2">
+                                <label for="endDate">Hasta:</label>
+                                <input type="date" id="endDate" class="form-control" [(ngModel)]="endDate">
+                            </div>
+
+                            <button class="btn btn-danger btn-sm mt-2" (click)="clearFilters()">Quitar filtros</button>
+                        </div>
+
+                    </div>
+                </div>
+                @if (reservations.length === 0) {
+                <div class="alert alert-info text-center">
+                    No tiene reservas registradas.
+                </div>
+                } @else {
+                <!-- Tabla de Reservas -->
+                <table class=" table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha de Reserva</th>
+                            <th>Fecha de Devolución</th>
+                            <th>Estado</th>
+                            <th>Tipo</th>
+                            <th>Libros Reservados</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (res of getFilteredReservations(); track res.reservation.id_reservation) {
+                        <tr>
+                            <td>{{ res.reservation.reservation_date | date: 'dd/MM/yyyy' }}</td>
+                            <td>{{ res.reservation.return_date | date: 'dd/MM/yyyy' }}</td>
+                            <td>
+                                <span class="badge" [ngClass]="{
+                        'bg-success': res.reservation.status === 'PENDIENTE',
+                        'bg-primary': res.reservation.status === 'CONFIRMADA',
+                        'bg-secondary': res.reservation.status === 'FINALIZADA',
+                        'bg-danger': res.reservation.status === 'CANCELADA',
+                        'bg-warning': res.reservation.status === 'VENCIDA'
+                    }">
+                                    {{ res.reservation.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge" [ngClass]="{
+                        'text-bg-warning': res.reservation.is_premium,
+                        'text-bg-info': !res.reservation.is_premium
+                    }">
+                                    {{ res.reservation.is_premium ? 'PREMIUM' : 'NORMAL' }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#bookDetailsModal"
+                                    (click)="setSelectedBooks(res.reservation_details)">Ver Libros</button>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                }
+
+            </div>
+
+            <!-- Modal de Detalles de Libros -->
+            <div class="modal fade" id="bookDetailsModal" tabindex="-1" aria-labelledby="bookDetailsModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="bookDetailsModalLabel">Detalles de Libros Reservados</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Portada</th>
+                                        <th>Título</th>
+                                        <th>Autor</th>
+                                        <th>Género</th>
+                                        <th>Editorial</th>
+                                        <th>ISBN</th>
+                                        <th>Tipo</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (bookDetail of selectedBooks; track bookDetail.book.id_book) {
+                                    <tr>
+                                        <td>
+                                            <img src="{{ bookDetail.book.image_file_path || 'no-image.png' }}"
+                                                alt="Portada" style="max-width: 50px; height: auto;">
+                                        </td>
+                                        <td>{{ bookDetail.book.title }}</td>
+                                        <td>{{ bookDetail.book.author }}</td>
+                                        <td>{{ bookDetail.book.genre }}</td>
+                                        <td>{{ bookDetail.book.editorial }}</td>
+                                        <td>{{ bookDetail.book.isbn }}</td>
+                                        <td>
+                                            <span
+                                                class="badge {{ bookDetail.book.is_premium ? 'text-bg-warning' : 'text-bg-info' }}">
+                                                {{ bookDetail.book.is_premium ? 'PREMIUM' : 'NORMAL' }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge 
+                                {{ bookDetail.book.status === 'LIBRE' ? 'text-bg-success' :
+                                   bookDetail.book.status === 'RESERVADO' ? 'text-bg-secondary' :
+                                   bookDetail.book.status === 'ELIMINADO' ? 'text-bg-danger' : '' }}">
+                                                {{ bookDetail.book.status }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+    </div>
+    <!-- Footer -->
+    <footer class="text-center py-3 mt-4 text-white">
+        <p>&copy; {{ currentYear }} Bookify - UTN</p>
+        <p>
+            Contacto:
+            <a href="mailto:404931@tecnicatura.frc.utn.edu.ar" class="text-white">
+                404931&#64;tecnicatura.frc.utn.edu.ar</a>
+            | Tel: +54 351 1234567
+        </p>
+        <p>Dirección: Av. Universidad Tecnológica 123, Córdoba, Argentina</p>
+    </footer>
+</body>
+
+</html>
