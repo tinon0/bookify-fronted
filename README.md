@@ -37,11 +37,11 @@ Bookify Frontend permite a los usuarios interactuar con el sistema de reservas d
 ### Guards - Vista no Autorizada:
 ![Vista No Autorizada](./assets/noAutorizadoBookify.gif)
 
-### Página de Responsive Mobile:
+### Página Responsive Mobile:
 ![Responsive](./assets/responsiveBookify.gif)
 
 ### Página de Notificaciones:
-![Notificaciones](./assets/responsiveBookify.gif)
+![Notificaciones](./assets/apartadoNotiBookify.gif)
 
 ---
 
